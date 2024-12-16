@@ -6,11 +6,11 @@
 #include <qbytearray.h>
 #include <bits/stl_vector.h>
 
-#include "SNMPRequest.h"
+#include "SNMPMessage.h"
 
 class SNMPMessageBuilder {
 public:
-    QByteArray buildMessage(const SNMPRequest& requestData) const;
+    QByteArray buildMessage(const SNMPMessage& requestData) const;
 
 private:
     void buildVersion(QByteArray &messageBytes) const;

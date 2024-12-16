@@ -4,7 +4,9 @@ add_library(snmp STATIC
         SNMPLogic.h
         SNMPMessageBuilder.cpp
         SNMPMessageBuilder.h
-        SNMPRequest.h
+        SNMPMessage.h
+        SNMPMessageDecoder.cpp
+        SNMPMessageDecoder.h
 )
 
 target_link_libraries(snmp PUBLIC

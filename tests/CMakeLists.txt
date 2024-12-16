@@ -12,6 +12,7 @@ include(GoogleTest)
 
 add_executable(SNMPSimTests
         SNMPMessageBuilderTest.cpp
+        SNMPMessageDecoderTest.cpp
 )
 
 target_link_libraries(SNMPSimTests

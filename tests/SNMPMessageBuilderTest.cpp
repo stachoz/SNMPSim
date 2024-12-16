@@ -29,7 +29,7 @@ TEST_F(SNMPMessageBuilderTest, buildMessageWithOidSegmentOnMultpileBytes) {
                                              "\x06\x0d\x2b\x06\x01\x04\x01\x94\x78\x01\x02\x07\x03\x02\x00"
                                              "\x05\x00");
 
-    SNMPRequest request;
+    SNMPMessage request;
     request.requestId = 1;
     request.communityString = "private";
     request.oid = {1, 3, 6, 1, 4, 1, 2680, 1, 2, 7, 3, 2, 0};
@@ -52,7 +52,7 @@ TEST_F(SNMPMessageBuilderTest, buildMessageWithOidSegementsOnSingleByte) {
                                              "\x06\x0c\x2b\x06\x01\x04\x01\x50\x01\x02\x07\x03\x02\x00"
                                              "\x05\x00");
 
-    SNMPRequest request;
+    SNMPMessage request;
     request.requestId = 1;
     request.communityString = "private";
     request.oid = {1, 3, 6, 1, 4, 1, 80, 1, 2, 7, 3, 2, 0};
@@ -74,7 +74,7 @@ TEST_F(SNMPMessageBuilderTest, buildMessageWithMaxRequestId) {
                                              "\x30\x10"
                                              "\x06\x0c\x2b\x06\x01\x04\x01\x50\x01\x02\x07\x03\x02\x00"
                                              "\x05\x00");
-    SNMPRequest request;
+    SNMPMessage request;
     request.requestId = 0xffff;
     request.communityString = "private";
     request.oid = {1, 3, 6, 1, 4, 1, 80, 1, 2, 7, 3, 2, 0};

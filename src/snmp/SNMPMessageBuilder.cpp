@@ -15,7 +15,7 @@
 #include <vector>
 
 
-QByteArray SNMPMessageBuilder::buildMessage(const SNMPRequest& requestData) const {
+QByteArray SNMPMessageBuilder::buildMessage(const SNMPMessage& requestData) const {
     QByteArray messageBytes;
 
     buildValue(messageBytes, requestData.value);

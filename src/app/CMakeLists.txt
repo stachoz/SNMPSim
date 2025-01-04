@@ -1,12 +1,10 @@
-add_executable(SNMPSim
+add_executable(SNMPSimApp
         main.cpp
-        snmp/SNMPLogic.cpp
-        snmp/SNMPLogic.h
 )
 
-target_link_libraries(SNMPSim
-        PRIVATE
-        Qt::Core
-        Qt::Gui
-        Qt::Widgets
+
+target_link_libraries(SNMPSimApp PRIVATE
+        Qt6::Widgets
+        Qt6::Core
+        snmp
 )

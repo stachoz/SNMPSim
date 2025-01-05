@@ -2,10 +2,9 @@
 // Created by stachoz on 12/1/24.
 //
 
-
 #include <gtest/gtest.h>
-
 #include "snmp/SNMPMessageDecoder.h"
+
 
 class SNMPMessageDecoderTest : public ::testing::Test {
 protected:

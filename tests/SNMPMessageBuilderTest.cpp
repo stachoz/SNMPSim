@@ -1,15 +1,10 @@
 #include <gtest/gtest.h>
-#include <qt6/QtCore/qbytearray.h>
-#include <iomanip>
-#include <QDebug>
-#include <qiodevice.h>
 
 #include "snmp/SNMPMessageBuilder.h"
 
-
 class SNMPMessageBuilderTest : public ::testing::Test {
 protected:
-    SNMPMessageBuilder builder;
+    SNMPMessageBuilder  builder;
 
     void SetUp() override {
         builder = SNMPMessageBuilder();

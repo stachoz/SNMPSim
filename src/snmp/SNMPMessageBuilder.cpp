@@ -10,9 +10,10 @@
 #include <iostream>
 #include <qdatastream.h>
 #include <qiodevice.h>
-
-#include "SNMPConstants.h"
 #include <vector>
+
+#include "data/SNMPConstants.h"
+#include "data/SNMPMessage.h"
 
 
 QByteArray SNMPMessageBuilder::buildMessage(const SNMPMessage& requestData) const {

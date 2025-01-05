@@ -8,8 +8,8 @@
 #include <qdatastream.h>
 #include <vector>
 
-#include "SNMPConstants.h"
-#include "SNMPMessage.h"
+#include "data/SNMPMessage.h"
+
 
 class SNMPMessageDecoder {
 public:

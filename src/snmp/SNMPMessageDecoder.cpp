@@ -4,6 +4,9 @@
 
 #include "SNMPMessageDecoder.h"
 
+#include "data/SNMPConstants.h"
+#include "data/SNMPMessage.h"
+
 SNMPMessage SNMPMessageDecoder::decodeSNMPMessageBytes(QByteArray &messageBytes) {
     SNMPMessage message;
 

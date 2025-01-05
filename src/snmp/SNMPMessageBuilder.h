@@ -4,9 +4,8 @@
 
 #pragma once
 #include <qbytearray.h>
-#include <bits/stl_vector.h>
 
-#include "SNMPMessage.h"
+#include "data/SNMPMessage.h"
 
 class SNMPMessageBuilder {
 public:

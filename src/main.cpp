@@ -1,5 +1,8 @@
+//
+// Created by stachoz on 11/30/24.
+//
+
 #include <QApplication>
-#include <QPushButton>
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);

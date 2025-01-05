@@ -1,8 +1,11 @@
 //
 // Created by stachoz on 11/16/24.
 //
+#pragma once
 
 #include <cstdint>
+#include <optional>
+#include <string>
 #include <vector>
 
 struct SNMPMessage {

@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include <cstdint>
 
 namespace SNMP {
     constexpr uint8_t INTEGER_TYPE {0x02};

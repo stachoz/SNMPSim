@@ -15,12 +15,16 @@ target_sources(SnmpSimLib PRIVATE
         snmp/data/SNMPMessage.h
 )
 
-target_link_libraries(SnmpSimLib PRIVATE
+target_link_libraries(SnmpSimLib PUBLIC
         Qt6::Core
+        Qt6::Gui
         Qt6::Widgets
         Qt6::Network
 )
 
 add_executable(SNMPSim
         main.cpp
+)
+
+target_link_libraries(SNMPSim PRIVATE SnmpSimLib
 )

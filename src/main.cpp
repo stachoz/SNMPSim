@@ -2,12 +2,11 @@
 // Created by stachoz on 11/30/24.
 //
 
-#include <QApplication>
+
+#include "app/SNMPSimApplication.h"
 
 int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
-    QPushButton button("Hello world!", nullptr);
-    button.resize(200, 100);
-    button.show();
-    return QApplication::exec();
+
+    SNMPSimApplication app(argc, argv);
+    app.exec();
 }

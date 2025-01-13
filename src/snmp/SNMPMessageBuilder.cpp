@@ -15,7 +15,6 @@
 #include "data/SNMPConstants.h"
 #include "data/SNMPMessage.h"
 
-
 QByteArray SNMPMessageBuilder::buildMessage(const SNMPMessage& requestData) const {
     QByteArray messageBytes;
 
@@ -45,9 +44,7 @@ void SNMPMessageBuilder::buildVersion(QByteArray& messageBytes) const {
 }
 
 void SNMPMessageBuilder::buildCommunityString(QByteArray& messageBytes, const std::string& communityString) const {
-    std::for_each(std::rbegin(communityString), std::rend(communityString), [&messageBytes](auto& c) {
-        messageBytes.push_back(c);
-    });
+    messageBytes.push_back(encodeStringToBytes(communityString));
     messageBytes.push_back(static_cast<char>(communityString.size()));
     messageBytes.push_back(SNMP::OCTET_STRING_TYPE);
 }
@@ -112,14 +109,10 @@ void SNMPMessageBuilder::buildOID(QByteArray &messageBytes, const std::vector<un
     messageBytes.push_back(SNMP::OID_TYPE);
 }
 
-void SNMPMessageBuilder::buildValue(QByteArray& messageBytes, const std::optional<int8_t>& value) const {
-    if(value.has_value()) {
-        messageBytes.push_back(value.value());
-        messageBytes.push_back(SNMP::INTEGER_TYPE);
-    } else {
-        messageBytes.push_back(static_cast<char>(0x00));
-        messageBytes.push_back(SNMP::NULL_TYPE);
-    }
+void SNMPMessageBuilder::buildValue(QByteArray &messageBytes,
+    const std::optional<std::variant<int32_t, std::string>> &value) const {
+         messageBytes.push_back(static_cast<char>(0x00));
+         messageBytes.push_back(SNMP::NULL_TYPE);
 }
 
 QByteArray SNMPMessageBuilder::encodeOidSegmentToBytes(unsigned int num) const {
@@ -134,4 +127,14 @@ QByteArray SNMPMessageBuilder::encodeOidSegmentToBytes(unsigned int num) const {
     } while(num > 0);
 
     return result;
+}
+
+QByteArray SNMPMessageBuilder::encodeStringToBytes(const std::string& value) const {
+    QByteArray stringBytes;
+
+    std::for_each(std::rbegin(value), std::rend(value), [&stringBytes](auto& c) {
+        stringBytes.push_back(c);
+    });
+
+    return stringBytes;
 }

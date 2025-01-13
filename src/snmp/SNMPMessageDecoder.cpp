@@ -44,14 +44,7 @@ std::string SNMPMessageDecoder::decodeCommunityString(QByteArray &messageBytes) 
 
     int lengthValue = decodeLength(messageBytes);
 
-    std::string communityString;
-
-    for(int i = 0; i < lengthValue; i++) {
-        communityString.push_back(messageBytes.at(0));
-        messageBytes.remove(0, 1);
-    }
-
-    return communityString;
+    return decodeString(messageBytes, lengthValue);
 }
 
 void SNMPMessageDecoder::decodePdu(QByteArray &messageBytes) {
@@ -123,7 +116,7 @@ void SNMPMessageDecoder::applyOidSpecialRule(QByteArray& messageBytes, std::vect
     oid.push_back(1);
 }
 
-std::optional<int32_t> SNMPMessageDecoder::decodeValue(QByteArray &messageBytes) {
+std::optional<std::variant<int32_t, std::string>> SNMPMessageDecoder::decodeValue(QByteArray &messageBytes) {
     uint8_t type = messageBytes.at(0);
     messageBytes.remove(0, 1);
 
@@ -133,6 +126,11 @@ std::optional<int32_t> SNMPMessageDecoder::decodeValue(QByteArray &messageBytes)
     }
 
     int length = decodeLength(messageBytes);
+
+    if(type == SNMP::OCTET_STRING_TYPE) {
+        return decodeString(messageBytes, length);
+    }
+
     return decodeNumber(messageBytes, length);
 }
 
@@ -163,4 +161,15 @@ int SNMPMessageDecoder::decodeNumber(QByteArray &messageBytes, int length) {
     }
 
     return value;
+}
+
+std::string SNMPMessageDecoder::decodeString(QByteArray &messageBytes, int length) {
+    std::string communityString;
+
+    for(int i = 0; i < length; i++) {
+        communityString.push_back(messageBytes.at(0));
+        messageBytes.remove(0, 1);
+    }
+
+    return communityString;
 }

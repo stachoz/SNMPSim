@@ -37,9 +37,11 @@ public:
 
     void applyOidSpecialRule(QByteArray &messageBytes, std::vector<unsigned int> &oid);
 
-    std::optional<int32_t> decodeValue(QByteArray& messageBytes);
+    std::optional<std::variant<int32_t, std::string>> decodeValue(QByteArray& messageBytes);
 
     int decodeLength(QByteArray& messageBytes);
 
     int decodeNumber(QByteArray& messageBytes, int length);
+
+    std::string decodeString(QByteArray& messageBytes, int length);
 };

@@ -26,8 +26,6 @@ private:
 
     void sendData();
 
-    SNMPMessage createSNMPMessage1();
-
     void readPendingDatagrams();
 
     void processTheDatagram(QNetworkDatagram &datagram) const;

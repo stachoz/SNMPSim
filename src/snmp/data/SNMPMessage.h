@@ -13,7 +13,6 @@ struct SNMPMessage {
     uint16_t requestId {};
     std::vector<unsigned int> oid;
     std::string communityString;
-    // std::optional<int32_t> value = std::nullopt;
     std::optional<std::variant<int32_t, std::string>> value = std::nullopt;
 
     bool operator==(const SNMPMessage& other) const {
@@ -37,7 +36,7 @@ struct SNMPMessage {
                 ss << std::get<std::string>(v);
             }
             else {
-                ss << std::to_string(static_cast<int>(std::get<int32_t>(v)));
+                ss << std::to_string(std::get<int32_t>(v));
             }
         }
 
@@ -55,5 +54,3 @@ struct SNMPMessage {
         return oidString;
     }
 };
-
-

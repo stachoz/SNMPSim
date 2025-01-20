@@ -152,13 +152,12 @@ int SNMPMessageDecoder::decodeLength(QByteArray &messageBytes) {
 
 int SNMPMessageDecoder::decodeNumber(QByteArray &messageBytes, int length) {
     int value = 0;
-    unsigned int shiftNum = 0;
 
-    for(int i = length - 1; i >= 0; i--) {
-        value += messageBytes.at(i) << shiftNum * 8;
-        messageBytes.remove(i, 1);
-        shiftNum++;
+    for (int i = 0; i < length; ++i) {
+        value = (value << 8) | static_cast<unsigned char>(messageBytes.at(i));
     }
+
+    messageBytes.remove(0, length);
 
     return value;
 }

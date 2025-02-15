@@ -58,11 +58,13 @@ void SNMPMessageBuilder::buildRequestID(QByteArray& messageBytes, const uint16_t
     QByteArray encodedRequestId;
 
     QDataStream stream(&encodedRequestId, QIODevice::WriteOnly);
-    stream.setByteOrder(QDataStream::BigEndian);
+    stream.setByteOrder(QDataStream::LittleEndian);
     stream << requestId;
 
-    while(!encodedRequestId.isEmpty() && encodedRequestId.at(0) == 0x00) {
-        encodedRequestId.remove(0, 1);
+    auto lastIndex = encodedRequestId.size() - 1;
+
+    if(encodedRequestId.at(lastIndex) == 0x00) {
+        encodedRequestId.remove(lastIndex, 1);
     }
 
     messageBytes.push_back(encodedRequestId);

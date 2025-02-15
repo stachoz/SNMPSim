@@ -22,7 +22,7 @@ private:
     void buildVarbind(QByteArray &messageBytes) const;
     void buildOID(QByteArray &messageBytes, const std::vector<unsigned int> &oid) const;
     void buildValue(QByteArray &messageBytes, const std::optional<std::variant<int32_t, std::string>> &value = std::nullopt) const;
-    QByteArray encodeOidSegmentToBytes(unsigned int num) const ;
 
+    QByteArray encodeOidSegmentToBytes(unsigned int num) const ;
     QByteArray encodeStringToBytes(const std::string &value) const;
 };

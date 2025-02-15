@@ -3,7 +3,6 @@
 //
 
 #include "SNMPMessageDecoder.h"
-
 #include "data/SNMPConstants.h"
 #include "data/SNMPMessage.h"
 

@@ -150,7 +150,6 @@ TEST_F(SNMPMessageDecoderTest, docodeMessageWithStringValue) {
     message.oid = {1, 3, 6, 1, 4, 1, 50, 1, 2, 7, 3, 2, 0};
     message.value = "test";
 
-
     auto result = decoder.decodeSNMPMessageBytes(bytesToDecode);
 
     ASSERT_EQ(message.communityString, result.communityString);

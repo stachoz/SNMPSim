@@ -10,6 +10,8 @@
 
 #include "SNMPMessageBuilder.h"
 #include "SNMPMessageDecoder.h"
+#include "data/Device.h"
+#include "data/DeviceManager.h"
 
 
 class SNMPLogic : public QObject {
@@ -20,7 +22,9 @@ private:
     std::unique_ptr<QUdpSocket> udpSocket = std::make_unique<QUdpSocket>();
     std::unique_ptr<SNMPMessageBuilder> snmpMessageBuilder = std::make_unique<SNMPMessageBuilder>();
     std::unique_ptr<SNMPMessageDecoder> snmpMessageDecoder = std::make_unique<SNMPMessageDecoder>();
-    QTimer* sendMessageTimer = new QTimer(this);
+    std::unique_ptr<DeviceManager> deviceManager = std::make_unique<DeviceManager>();
+    QTimer sendMessageTimer {this};
+    static uint16_t requestIdCounter;
 
     void initSocket();
 
@@ -28,5 +32,7 @@ private:
 
     void readPendingDatagrams();
 
-    void processTheDatagram(QNetworkDatagram &datagram) const;
+    void processTheDatagram(const QNetworkDatagram &datagram) const;
+
+    std::vector<SNMPMessage> createSNMPMessages(const std::vector<Device> &devices) const;
 };

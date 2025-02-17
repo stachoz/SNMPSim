@@ -14,12 +14,14 @@ struct SNMPMessage {
     std::vector<unsigned int> oid;
     std::string communityString;
     std::optional<std::variant<int32_t, std::string>> value = std::nullopt;
+    std::string ip; ///< [Pole] ip address of device that message will be sent or received from
 
     bool operator==(const SNMPMessage& other) const {
         return requestId == other.requestId
                 && oid == other.oid
                 && communityString == other.communityString
-                && value == other.value;
+                && value == other.value
+                && ip == other.ip;
     }
 
     std::string getString() const {
@@ -39,6 +41,8 @@ struct SNMPMessage {
                 ss << std::to_string(std::get<int32_t>(v));
             }
         }
+
+        ss << " IP: " << ip;
 
         return ss.str();
     }

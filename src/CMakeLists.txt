@@ -13,6 +13,8 @@ target_sources(SnmpSimLib PRIVATE
         snmp/SNMPMessageDecoder.h
         snmp/data/SNMPConstants.h
         snmp/data/SNMPMessage.h
+        snmp/data/Device.h
+        snmp/data/DeviceManager.h
 )
 
 target_link_libraries(SnmpSimLib PUBLIC

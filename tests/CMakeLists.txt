@@ -15,7 +15,7 @@ add_executable(SNMPSimTests
         SNMPMessageDecoderTest.cpp
 )
 
-target_include_directories(SNMPSimTests PRIVATE ${CMAKE_SOURCE_DIR}/src)
+target_include_directories(SNMPSimTests PRIVATE ${CMAKE_SOURCE_DIR}/snmp-server)
 
 target_link_libraries(SNMPSimTests PRIVATE
         gtest

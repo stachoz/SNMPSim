@@ -1,9 +1,11 @@
 #include <gtest/gtest.h>
-#include "snmp/SNMPMessageBuilder.h"
+
+#include "src/SNMPMessageBuilder.h"
+
 
 class SNMPMessageBuilderTest : public ::testing::Test {
 protected:
-    SNMPMessageBuilder  builder;
+    SNMPMessageBuilder builder;
 
     void SetUp() override {
         builder = SNMPMessageBuilder();

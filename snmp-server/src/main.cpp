@@ -3,7 +3,7 @@
 //
 
 
-#include "app/SNMPSimApplication.h"
+#include "SNMPSimApplication.h"
 
 int main(int argc, char *argv[]) {
 

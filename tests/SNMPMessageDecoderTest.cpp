@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "snmp/SNMPMessageDecoder.h"
+#include "src/SNMPMessageDecoder.h"
 
 
 class SNMPMessageDecoderTest : public ::testing::Test {

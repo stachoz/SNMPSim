@@ -6,7 +6,7 @@
 
 #include <QApplication>
 
-#include "snmp/SNMPLogic.h"
+#include "SNMPLogic.h"
 
 class SNMPSimApplication : public QApplication{
     Q_OBJECT

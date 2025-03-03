@@ -14,8 +14,7 @@ SNMPLogic::SNMPLogic(QObject *parent) : QObject(parent){
 }
 
 void SNMPLogic::initSocket() {
-    udpSocket = std::make_unique<QUdpSocket>(this);
-    udpSocket->bind(QHostAddress::LocalHost, 160);
+    udpSocket->bind(QHostAddress::AnyIPv4, 161);
 
     connect(udpSocket.get(), &QUdpSocket::readyRead, this, &SNMPLogic::readPendingDatagrams);
 }
@@ -23,14 +22,15 @@ void SNMPLogic::initSocket() {
 void SNMPLogic::readPendingDatagrams() {
     while (udpSocket->hasPendingDatagrams()) {
         QNetworkDatagram datagram = udpSocket->receiveDatagram();
-        processTheDatagram(datagram);
+        forwardDataToHost(datagram);
+        // processTheDatagram(datagram);
     }
 }
 
 void SNMPLogic::processTheDatagram(const QNetworkDatagram& datagram) const {
     QByteArray bytesToDecode = datagram.data();
     QHostAddress senderAddress = datagram.senderAddress();
-    SNMPMessage decodedMessage = snmpMessageDecoder->decodeSNMPMessageBytes(bytesToDecode);
+    SNMPMessage decodedMessage = SNMPMessageDecoder::decodeSNMPMessageBytes(bytesToDecode);
     decodedMessage.ip = senderAddress.toString().toStdString();
 
     std::cout << "Message decoded: " << decodedMessage.getString() << std::endl;
@@ -40,11 +40,12 @@ void SNMPLogic::sendData() {
     std::vector messages = createSNMPMessages(deviceManager->getDevices());
 
     for(const auto& message : messages) {
-        QByteArray encodedMessage = snmpMessageBuilder->buildMessage(message);
+        QByteArray encodedMessage = SNMPMessageBuilder::buildMessage(message);
         auto result = udpSocket->writeDatagram(encodedMessage, QHostAddress(QString::fromStdString(message.ip)), 161);
 
         if(result == -1) {
-            std::cout << "Unable to send datagram" << std::endl;
+            std::cout << "Unable to send datagram. " << message.getString() << std::endl;
+            std::cout <<  udpSocket->errorString().toStdString() << std::endl;
         }
         else {
             std::cout << "snmp-get sent. " << message.getString() << std::endl;
@@ -67,4 +68,13 @@ std::vector<SNMPMessage> SNMPLogic::createSNMPMessages(const std::vector<Device>
     }
 
     return snmpMessages;
+}
+
+void SNMPLogic::forwardDataToHost(const QNetworkDatagram& datagram) {
+    auto result = udpSocket->writeDatagram(datagram.data(), QHostAddress("172.17.0.1"), 55555);
+
+    if(result == -1) {
+        std::cout << "Unable to send datagram." << std::endl;
+        std::cout <<  udpSocket->errorString().toStdString() << std::endl;
+    }
 }

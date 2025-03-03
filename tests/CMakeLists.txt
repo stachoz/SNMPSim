@@ -15,12 +15,13 @@ add_executable(SNMPSimTests
         SNMPMessageDecoderTest.cpp
 )
 
-target_include_directories(SNMPSimTests PRIVATE ${CMAKE_SOURCE_DIR}/snmp-server)
+
+target_include_directories(SNMPSimTests PRIVATE ${CMAKE_SOURCE_DIR}/libs/SNMPBytesOperations/src)
 
 target_link_libraries(SNMPSimTests PRIVATE
         gtest
         gtest_main
-        SnmpSimLib
+        SNMPBytesOperationLib
         Qt6::Core
         Qt6::Widgets
         Qt6::Network

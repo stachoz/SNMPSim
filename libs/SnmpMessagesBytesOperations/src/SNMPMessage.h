@@ -3,11 +3,13 @@
 //
 #pragma once
 
+#include <algorithm>
 #include <cstdint>
 #include <optional>
 #include <string>
 #include <vector>
 #include <sstream>
+#include <variant>
 
 struct SNMPMessage {
     uint16_t requestId {};

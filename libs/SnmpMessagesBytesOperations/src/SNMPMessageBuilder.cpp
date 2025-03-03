@@ -4,18 +4,10 @@
 
 // https://www.ranecommercial.com/legacy/note161.html
 
-
 #include "SNMPMessageBuilder.h"
 
-#include <iostream>
-#include <qdatastream.h>
-#include <qiodevice.h>
-#include <vector>
 
-#include "data/SNMPConstants.h"
-#include "data/SNMPMessage.h"
-
-QByteArray SNMPMessageBuilder::buildMessage(const SNMPMessage& requestData) const {
+QByteArray SNMPMessageBuilder::buildMessage(const SNMPMessage& requestData){
     QByteArray messageBytes;
 
     buildValue(messageBytes, requestData.value);
@@ -37,24 +29,24 @@ QByteArray SNMPMessageBuilder::buildMessage(const SNMPMessage& requestData) cons
     return messageBytes;
 }
 
-void SNMPMessageBuilder::buildVersion(QByteArray& messageBytes) const {
+void SNMPMessageBuilder::buildVersion(QByteArray& messageBytes) {
     messageBytes.push_back(static_cast<char>(SNMP::SNMP_V2));
     messageBytes.push_back(0x01);
     messageBytes.push_back(SNMP::INTEGER_TYPE);
 }
 
-void SNMPMessageBuilder::buildCommunityString(QByteArray& messageBytes, const std::string& communityString) const {
+void SNMPMessageBuilder::buildCommunityString(QByteArray& messageBytes, const std::string& communityString) {
     messageBytes.push_back(encodeStringToBytes(communityString));
     messageBytes.push_back(static_cast<char>(communityString.size()));
     messageBytes.push_back(SNMP::OCTET_STRING_TYPE);
 }
 
-void SNMPMessageBuilder::buildPDU(QByteArray& messageBytes) const {
+void SNMPMessageBuilder::buildPDU(QByteArray& messageBytes) {
     messageBytes.push_back(static_cast<char>(messageBytes.size()));
     messageBytes.push_back(SNMP::GET_REQUEST_TYPE);
 }
 
-void SNMPMessageBuilder::buildRequestID(QByteArray& messageBytes, const uint16_t& requestId) const {
+void SNMPMessageBuilder::buildRequestID(QByteArray& messageBytes, const uint16_t& requestId) {
     QByteArray encodedRequestId;
 
     QDataStream stream(&encodedRequestId, QIODevice::WriteOnly);
@@ -73,34 +65,34 @@ void SNMPMessageBuilder::buildRequestID(QByteArray& messageBytes, const uint16_t
     messageBytes.push_back(SNMP::INTEGER_TYPE);
 }
 
-void SNMPMessageBuilder::buildError(QByteArray& messageBytes) const {
+void SNMPMessageBuilder::buildError(QByteArray& messageBytes){
     messageBytes.push_back(static_cast<char>(0x00));
     messageBytes.push_back(0x01);
     messageBytes.push_back(SNMP::INTEGER_TYPE);
 }
 
-void SNMPMessageBuilder::buildErrorIndex(QByteArray& messageBytes) const {
+void SNMPMessageBuilder::buildErrorIndex(QByteArray& messageBytes){
     messageBytes.push_back(static_cast<char>(0x00));
     messageBytes.push_back(0x01);
     messageBytes.push_back(SNMP::INTEGER_TYPE);
 }
 
-void SNMPMessageBuilder::buildVarbindList(QByteArray& messageBytes) const {
+void SNMPMessageBuilder::buildVarbindList(QByteArray& messageBytes) {
     messageBytes.push_back(static_cast<char>(messageBytes.size()));
     messageBytes.push_back(SNMP::SEQUENCE_TYPE);
 }
 
-void SNMPMessageBuilder::buildVarbind(QByteArray& messageBytes) const {
+void SNMPMessageBuilder::buildVarbind(QByteArray& messageBytes) {
     messageBytes.push_back(static_cast<char>(messageBytes.size()));
     messageBytes.push_back(SNMP::SEQUENCE_TYPE);
 }
 
-void SNMPMessageBuilder::buildOID(QByteArray &messageBytes, const std::vector<unsigned int>& oid) const {
+void SNMPMessageBuilder::buildOID(QByteArray &messageBytes, const std::vector<unsigned int>& oid) {
     if(oid.size() <= 2) throw std::runtime_error("Invalid size of OID: " + oid.size());
 
     QByteArray encodedOid;
 
-    std::for_each(oid.rbegin(), oid.rend() - 2, [&encodedOid, this](const unsigned int& oidNum) {
+    std::for_each(oid.rbegin(), oid.rend() - 2, [&encodedOid](const unsigned int& oidNum) {
         encodedOid.push_back(encodeOidSegmentToBytes(oidNum));
     });
 
@@ -112,12 +104,12 @@ void SNMPMessageBuilder::buildOID(QByteArray &messageBytes, const std::vector<un
 }
 
 void SNMPMessageBuilder::buildValue(QByteArray &messageBytes,
-    const std::optional<std::variant<int32_t, std::string>> &value) const {
+    const std::optional<std::variant<int32_t, std::string>> &value) {
          messageBytes.push_back(static_cast<char>(0x00));
          messageBytes.push_back(SNMP::NULL_TYPE);
 }
 
-QByteArray SNMPMessageBuilder::encodeOidSegmentToBytes(unsigned int num) const {
+QByteArray SNMPMessageBuilder::encodeOidSegmentToBytes(unsigned int num) {
     QByteArray result;
     uint8_t segment = 0;
 
@@ -131,7 +123,7 @@ QByteArray SNMPMessageBuilder::encodeOidSegmentToBytes(unsigned int num) const {
     return result;
 }
 
-QByteArray SNMPMessageBuilder::encodeStringToBytes(const std::string& value) const {
+QByteArray SNMPMessageBuilder::encodeStringToBytes(const std::string& value) {
     QByteArray stringBytes;
 
     std::for_each(std::rbegin(value), std::rend(value), [&stringBytes](auto& c) {

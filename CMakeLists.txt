@@ -10,5 +10,7 @@ set(CMAKE_PREFIX_PATH "/usr/lib/qt6")
 
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets Network)
 
-add_subdirectory(snmp-server)
+add_subdirectory(apps/snmp-server)
+add_subdirectory(apps/host-data-receiver)
 add_subdirectory(tests)
+add_subdirectory(libs/SnmpMessagesBytesOperations)

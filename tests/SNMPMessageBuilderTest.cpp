@@ -1,15 +1,10 @@
+#include <qbytearray.h>
 #include <gtest/gtest.h>
 
-#include "src/SNMPMessageBuilder.h"
+#include "SNMPMessageBuilder.h"
 
 
 class SNMPMessageBuilderTest : public ::testing::Test {
-protected:
-    SNMPMessageBuilder builder;
-
-    void SetUp() override {
-        builder = SNMPMessageBuilder();
-    }
 };
 
 TEST_F(SNMPMessageBuilderTest, buildMessageWithOidSegmentOnMultpileBytes) {
@@ -30,7 +25,7 @@ TEST_F(SNMPMessageBuilderTest, buildMessageWithOidSegmentOnMultpileBytes) {
     request.communityString = "private";
     request.oid = {1, 3, 6, 1, 4, 1, 2680, 1, 2, 7, 3, 2, 0};
 
-    auto result = builder.buildMessage(request);
+    auto result = SNMPMessageBuilder::buildMessage(request);
 
     ASSERT_EQ(result, expectedBytes);
 }
@@ -53,7 +48,7 @@ TEST_F(SNMPMessageBuilderTest, buildMessageWithOidSegementsOnSingleByte) {
     request.communityString = "private";
     request.oid = {1, 3, 6, 1, 4, 1, 80, 1, 2, 7, 3, 2, 0};
 
-    auto result = builder.buildMessage(request);
+    auto result = SNMPMessageBuilder::buildMessage(request);
 
     ASSERT_EQ(result, expectedBytes);
 }
@@ -75,7 +70,7 @@ TEST_F(SNMPMessageBuilderTest, buildMessageWithMaxRequestId) {
     request.communityString = "private";
     request.oid = {1, 3, 6, 1, 4, 1, 80, 1, 2, 7, 3, 2, 0};
 
-    auto result = builder.buildMessage(request);
+    auto result = SNMPMessageBuilder::buildMessage(request);
 
     ASSERT_EQ(result, expectedBytes);
 }
@@ -97,7 +92,7 @@ TEST_F(SNMPMessageBuilderTest, buildMessageIdWithRequestIdOnTwoBytes) {
     request.communityString = "private";
     request.oid = {1, 3, 6, 1, 4, 1, 80, 1, 2, 7, 3, 2, 0};
 
-    auto result = builder.buildMessage(request);
+    auto result = SNMPMessageBuilder::buildMessage(request);
 
     ASSERT_EQ(result, expectedBytes);
 }

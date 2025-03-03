@@ -3,16 +3,11 @@
 //
 
 #include <gtest/gtest.h>
-#include "src/SNMPMessageDecoder.h"
+
+#include "SNMPMessageDecoder.h"
 
 
 class SNMPMessageDecoderTest : public ::testing::Test {
-protected:
-    SNMPMessageDecoder decoder;
-
-    void SetUp() override {
-        decoder = SNMPMessageDecoder();
-    }
 };
 
 TEST_F(SNMPMessageDecoderTest, decodeWithNullValue) {
@@ -35,7 +30,7 @@ TEST_F(SNMPMessageDecoderTest, decodeWithNullValue) {
     message.value = std::nullopt;
 
 
-    auto result = decoder.decodeSNMPMessageBytes(bytesToDecode);
+    auto result = SNMPMessageDecoder::decodeSNMPMessageBytes(bytesToDecode);
 
     ASSERT_EQ(message.communityString, result.communityString);
     ASSERT_EQ(message.requestId, result.requestId);
@@ -64,7 +59,7 @@ TEST_F(SNMPMessageDecoderTest, decodeOidWithAllSegmentsOnOneByte) {
     message.value = std::nullopt;
 
 
-    auto result = decoder.decodeSNMPMessageBytes(bytesToDecode);
+    auto result = SNMPMessageDecoder::decodeSNMPMessageBytes(bytesToDecode);
 
     ASSERT_EQ(message.communityString, result.communityString);
     ASSERT_EQ(message.requestId, result.requestId);
@@ -93,7 +88,7 @@ TEST_F(SNMPMessageDecoderTest, decodeWithMaxRequestId) {
     message.value = std::nullopt;
 
 
-    auto result = decoder.decodeSNMPMessageBytes(bytesToDecode);
+    auto result = SNMPMessageDecoder::decodeSNMPMessageBytes(bytesToDecode);
 
     ASSERT_EQ(message.communityString, result.communityString);
     ASSERT_EQ(message.requestId, result.requestId);
@@ -123,7 +118,7 @@ TEST_F(SNMPMessageDecoderTest, docodeMessageWithIntegerValue) {
     message.value = 1000;
 
 
-    auto result = decoder.decodeSNMPMessageBytes(bytesToDecode);
+    auto result = SNMPMessageDecoder::decodeSNMPMessageBytes(bytesToDecode);
 
     ASSERT_EQ(message.communityString, result.communityString);
     ASSERT_EQ(message.requestId, result.requestId);
@@ -150,7 +145,7 @@ TEST_F(SNMPMessageDecoderTest, docodeMessageWithStringValue) {
     message.oid = {1, 3, 6, 1, 4, 1, 50, 1, 2, 7, 3, 2, 0};
     message.value = "test";
 
-    auto result = decoder.decodeSNMPMessageBytes(bytesToDecode);
+    auto result = SNMPMessageDecoder::decodeSNMPMessageBytes(bytesToDecode);
 
     ASSERT_EQ(message.communityString, result.communityString);
     ASSERT_EQ(message.requestId, result.requestId);

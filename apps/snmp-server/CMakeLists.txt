@@ -18,10 +18,9 @@ target_link_libraries(SNMPServer PUBLIC
         Qt6::Core
         Qt6::Widgets
         Qt6::Network
-)
-
-target_link_libraries(SNMPServer PRIVATE
+        proto
         SNMPBytesOperationLib
 )
 
 target_include_directories(SNMPServer PRIVATE ${CMAKE_SOURCE_DIR}/libs/SNMPBytesOperations/src)
+target_include_directories(SNMPServer PUBLIC ${CMAKE_BINARY_DIR}/proto)

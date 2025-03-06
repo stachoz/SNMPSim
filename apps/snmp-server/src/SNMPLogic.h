@@ -4,15 +4,19 @@
 
 #pragma once
 
-
-#include "data/Device.h"
-#include "data/DeviceManager.h"
+#include <iostream>
+#include <QDateTime>
 #include <QtNetwork/QUdpSocket>
 #include <QtNetwork/QNetworkDatagram>
 #include <QTimer>
 
+#include "data/Device.h"
+#include "data/DeviceManager.h"
+
 #include "SNMPMessageBuilder.h"
 #include "SNMPMessageDecoder.h"
+#include "data/Device.h"
+#include "SnmpFrame.pb.h"
 
 
 class SNMPLogic : public QObject {
@@ -33,9 +37,7 @@ private:
 
     void readPendingDatagrams();
 
-    void processTheDatagram(const QNetworkDatagram &datagram) const;
-
     std::vector<SNMPMessage> createSNMPMessages(const std::vector<Device> &devices) const;
 
-    void forwardDataToHost(const QNetworkDatagram &datagram);
+    void forwardDataToHost(SNMPMessage &message);
 };

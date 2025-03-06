@@ -3,9 +3,13 @@
 //
 
 #pragma once
+#include <iostream>
 #include <QApplication>
 #include <QNetworkDatagram>
 #include <QUdpSocket>
+#include <SnmpFrame.pb.h>
+
+#include "SNMPMessageDecoder.h"
 
 
 class DataReceiverApplication : public QApplication {
@@ -18,9 +22,19 @@ public:
 private slots:
     void processDatagram() {
         while (updSocket->hasPendingDatagrams()) {
-            // QNetworkDatagram datagram = updSocket->receiveDatagram();
-            auto datagram = updSocket->receiveDatagram();
-            qDebug() << datagram.data();
+            QNetworkDatagram datagram = updSocket->receiveDatagram();
+            QByteArray data = datagram.data();
+            SnmpFrame snmpFrame;
+            if(snmpFrame.ParseFromArray(data.data(), data.size())) {
+                std::cout << "Odebrano ramke: "
+                    << "IP: " << snmpFrame.ip() << " ,"
+                    << "RequestId: " << snmpFrame.requestid() << " ,"
+                    << "Oid: " << snmpFrame.oid() << " ,"
+                    << "Value: " << snmpFrame.value() << std::endl;
+            }
+            else {
+                std::cout << "Błąd deserializacji ramki Protobuf";
+            }
         }
     }
 

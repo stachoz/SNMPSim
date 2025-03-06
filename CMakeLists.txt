@@ -9,7 +9,9 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_PREFIX_PATH "/usr/lib/qt6")
 
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets Network)
+find_package(Protobuf REQUIRED)
 
+add_subdirectory(proto)
 add_subdirectory(apps/snmp-server)
 add_subdirectory(apps/host-data-receiver)
 add_subdirectory(tests)

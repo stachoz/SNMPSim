@@ -15,4 +15,12 @@ target_link_libraries(HostDataReceiver PUBLIC
         Qt6::Core
         Qt6::Widgets
         Qt6::Network
+        proto
 )
+
+target_link_libraries(HostDataReceiver PRIVATE
+        SNMPBytesOperationLib
+)
+
+target_include_directories(HostDataReceiver PRIVATE ${CMAKE_SOURCE_DIR}/libs/SNMPBytesOperations/src)
+target_include_directories(SNMPServer PUBLIC ${CMAKE_BINARY_DIR}/proto)

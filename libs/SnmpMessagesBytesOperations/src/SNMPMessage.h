@@ -30,7 +30,7 @@ struct SNMPMessage {
         std::stringstream ss;
         ss << "[SNMP Message] " <<
             " request id: " << requestId <<
-            " oid:" << oidToString(oid) <<
+            " oid:" << getOidAsString() <<
             " communityString: " << communityString;
 
         if(value.has_value()) {
@@ -49,7 +49,7 @@ struct SNMPMessage {
         return ss.str();
     }
 
-    std::string oidToString(const std::vector<unsigned int>& oid) const {
+    std::string getOidAsString() const {
         std::string oidString;
 
         std::for_each(oid.begin(), oid.end() - 1, [&oidString](const unsigned int& oidValue) {

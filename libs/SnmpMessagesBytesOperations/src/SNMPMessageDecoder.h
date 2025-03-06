@@ -15,6 +15,7 @@
 class SNMPMessageDecoder {
 public:
     static SNMPMessage decodeSNMPMessageBytes(QByteArray& messageBytes);
+private:
     static void decodeMessageType(QByteArray &messageBytes);
     static void decodeVersion(QByteArray& messageBytes);
     static std::string decodeCommunityString(QByteArray& messageBytes);

@@ -1,7 +1,7 @@
 FROM debian:12-slim
 LABEL authors="stachoz"
 
-COPY debian.sources /etc/apt/sources.list.d/debian.sources
+#COPY debian.sources /etc/apt/sources.list.d/debian.sources
 
 RUN apt-get update && \
     apt-get install -y \

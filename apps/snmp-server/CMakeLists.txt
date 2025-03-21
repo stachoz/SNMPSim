@@ -10,7 +10,6 @@ target_sources(SNMPServer PRIVATE
         src/SNMPSimApplication.h
         src/SNMPLogic.cpp
         src/SNMPLogic.h
-        src/data/Device.h
         src/data/DeviceManager.h
 )
 
@@ -20,7 +19,9 @@ target_link_libraries(SNMPServer PUBLIC
         Qt6::Network
         proto
         SNMPBytesOperationLib
+        SharedTypesLib
 )
 
 target_include_directories(SNMPServer PRIVATE ${CMAKE_SOURCE_DIR}/libs/SNMPBytesOperations/src)
+target_include_directories(SNMPServer PRIVATE ${CMAKE_SOURCE_DIR}/sharedTypes/src)
 target_include_directories(SNMPServer PUBLIC ${CMAKE_BINARY_DIR}/proto)

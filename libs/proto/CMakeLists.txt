@@ -1,4 +1,6 @@
-set(PROTO_FILES SnmpFrame.proto)
+set(PROTO_FILES
+        SnmpFrame.proto
+)
 protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${PROTO_FILES})
 add_library(proto ${PROTO_SRCS} ${PROTO_HDRS})
 target_include_directories(proto PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${Protobuf_INCLUDE_DIRS})

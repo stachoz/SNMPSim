@@ -6,4 +6,6 @@ message SnmpFrame {
   string ip = 3;
   int32 value = 4;
   int64 timestamp = 5;
+  string paramName = 6;
+  string deviceName = 7;
 }

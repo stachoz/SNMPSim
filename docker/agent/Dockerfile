@@ -1,8 +1,6 @@
 FROM debian:12-slim
 LABEL authors="stachoz"
 
-#COPY debian.sources /etc/apt/sources.list.d/debian.sources
-
 RUN apt-get update && \
     apt-get install -y \
     snmp \
@@ -20,3 +18,6 @@ RUN chmod +x /usr/local/bin/snmp/snmp-cpu-usage.sh
 COPY snmpd-agent.conf /etc/snmp/snmpd.conf
 
 EXPOSE 161/udp
+
+ENTRYPOINT ["snmpd"]
+CMD ["-Lo", "-f"]

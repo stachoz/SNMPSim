@@ -21,6 +21,7 @@ generate_final_value(){
 
   echo $value
 }
+
 echo ".1.3.6.1.2025.2"
 echo "INTEGER"
 echo $(generate_final_value)

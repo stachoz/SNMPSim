@@ -22,7 +22,6 @@ public:
     std::string getParamNameByOid(const std::vector<unsigned int>& oid) const;
 
 private:
-    uint8_t deviceId = 0;
     std::string name;
     std::string ip;
     std::map<std::string, std::vector<unsigned int>> snmpOids;

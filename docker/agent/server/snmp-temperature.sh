@@ -2,15 +2,15 @@
 
 # random number between 10 and 80
 generate_random_value() {
-    echo $((RANDOM % 71 + 10))
+    echo $((RANDOM % 31 + 30))
 }
 
 # random number between 90 and 100
 generate_spike() {
-    echo $((RANDOM % 11 + 90))
+    echo $((RANDOM % 21 + 61))
 }
 
-generate_final_value(){
+generate_final_result() {
   chance=$((RANDOM % 10 + 1))
 
   if [ $chance -eq 1 ]; then
@@ -21,10 +21,8 @@ generate_final_value(){
 
   echo $value
 }
-echo ".1.3.6.1.2025.2"
+
+echo ".1.3.6.1.2025.1"
 echo "INTEGER"
-echo $(generate_final_value)
-
-
-
+echo $(generate_final_result)
 

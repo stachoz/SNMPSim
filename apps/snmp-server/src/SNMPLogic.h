@@ -10,12 +10,10 @@
 #include <QtNetwork/QNetworkDatagram>
 #include <QTimer>
 
-#include "data/Device.h"
 #include "data/DeviceManager.h"
 
 #include "SNMPMessageBuilder.h"
 #include "SNMPMessageDecoder.h"
-#include "data/Device.h"
 #include "SnmpFrame.pb.h"
 
 
@@ -30,6 +28,8 @@ private:
     std::unique_ptr<DeviceManager> deviceManager = std::make_unique<DeviceManager>();
     QTimer sendMessageTimer {this};
     static uint16_t requestIdCounter;
+    static constexpr std::string HOST_IP = "192.168.65.2";
+    static constexpr int HOST_PORT = 55555;
 
     void initSocket();
 
@@ -40,4 +40,6 @@ private:
     std::vector<SNMPMessage> createSNMPMessages(const std::vector<Device> &devices) const;
 
     void forwardDataToHost(SNMPMessage &message);
+
+    void sendDevicesNames() const;
 };

@@ -10,6 +10,7 @@ add_executable(HostDataReceiver
         src/DockerContainerLauncher.h
         src/DataReceiverLogic.cpp
         src/DataReceiverLogic.h
+        src/DeviceParam.h
 )
 
 target_sources(HostDataReceiver PRIVATE
@@ -30,10 +31,8 @@ target_link_libraries(HostDataReceiver PUBLIC
 
 target_link_libraries(HostDataReceiver PRIVATE
         SNMPBytesOperationLib
-        SharedTypesLib
 )
 
 target_include_directories(HostDataReceiver PRIVATE ${CMAKE_SOURCE_DIR}/libs/SNMPBytesOperations/src)
 target_include_directories(HostDataReceiver PUBLIC ${CMAKE_BINARY_DIR}/proto)
-target_include_directories(HostDataReceiver PUBLIC ${CMAKE_BINARY_DIR}/sharedTypes)
 target_include_directories(HostDataReceiver PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

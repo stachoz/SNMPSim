@@ -3,13 +3,12 @@
 //
 
 #pragma once
-#include <iostream>
 #include <QApplication>
-#include <QNetworkDatagram>
-#include <QUdpSocket>
 #include <SnmpFrame.pb.h>
 
-#include "SNMPMessageDecoder.h"
+#include <gui/SnmpSimWindow.h>
+
+#include "DataReceiverLogic.h"
 
 
 class DataReceiverApplication : public QApplication {
@@ -17,11 +16,7 @@ class DataReceiverApplication : public QApplication {
 public:
     DataReceiverApplication(int &argc, char **argv);
 
-private slots:
-    void processDatagram() const;
-
 private:
-    std::unique_ptr<QUdpSocket> updSocket = std::make_unique<QUdpSocket>(this);
-
-    void initSocket();
+    std::unique_ptr<SnmpSimWindow> window = std::make_unique<SnmpSimWindow>();
+    std::unique_ptr<DataReceiverLogic> logic = std::make_unique<DataReceiverLogic>();
 };

@@ -48,8 +48,8 @@ std::vector<SNMPMessage> SNMPLogic::createSNMPMessages(const std::vector<Device>
     for(const auto& device : devices) {
         SNMPMessage message;
         message.communityString = "public";
-        message.ip = device.ip;
-        for(auto& [oidName, oidValue] : device.snmpOids) {
+        message.ip = device.getIp();
+        for(auto& [oidName, oidValue] : device.getSnmpOids()) {
             message.requestId = requestIdCounter++;
             message.oid = oidValue;
             snmpMessages.push_back(message);
@@ -60,26 +60,39 @@ std::vector<SNMPMessage> SNMPLogic::createSNMPMessages(const std::vector<Device>
 }
 
 void SNMPLogic::forwardDataToHost(SNMPMessage& message) {
-    if(message.value.has_value()) {
-        SnmpFrame protoSnmpFrame;
-        protoSnmpFrame.set_requestid(message.requestId);
-        protoSnmpFrame.set_ip(message.ip);
-        protoSnmpFrame.set_oid(message.getOidAsString());
-        protoSnmpFrame.set_value(std::get<int32_t>(*message.value));
-        protoSnmpFrame.set_timestamp(QDateTime::currentMSecsSinceEpoch());
+    if(!message.value.has_value()) {
+        std::cout << "Massage has no value"<< std::endl;
+        return;
+    }
 
-        QByteArray data(protoSnmpFrame.ByteSizeLong(), 0);
-        protoSnmpFrame.SerializeToArray(data.data(), data.size());
+    auto device = deviceManager->getDeviceByIp(message.ip);
 
-        // #TODO automatyczne wczytywanie adresu host.docker.internal (192.168.65.2)
-        auto result = udpSocket->writeDatagram(data, QHostAddress("192.168.65.2"), 55555);
+    if(!device) {
+        std::cout << "There is no such device with given ip: " << message.ip << std::endl;
+        return;
+    }
 
-        if(result == -1) {
-            std::cout << "Unable to send proto frame" << std::endl;
-            std::cout <<  udpSocket->errorString().toStdString() << std::endl;
-        }
-        else {
-            std::cout << "Message forwarded" << std::endl;
-        }
+
+    SnmpFrame protoSnmpFrame;
+    protoSnmpFrame.set_requestid(message.requestId);
+    protoSnmpFrame.set_ip(message.ip);
+    protoSnmpFrame.set_oid(message.getOidAsString());
+    protoSnmpFrame.set_value(std::get<int32_t>(*message.value));
+    protoSnmpFrame.set_timestamp(QDateTime::currentMSecsSinceEpoch());
+    protoSnmpFrame.set_paramname(device->getParamNameByOid(message.oid));
+    protoSnmpFrame.set_devicename(device->getName());
+
+    QByteArray data(protoSnmpFrame.ByteSizeLong(), 0);
+    protoSnmpFrame.SerializeToArray(data.data(), data.size());
+
+    // #TODO automatyczne wczytywanie adresu host.docker.internal (192.168.65.2)
+    auto result = udpSocket->writeDatagram(data, QHostAddress(HOST_IP.c_str()), HOST_PORT);
+
+    if(result == -1) {
+        std::cout << "Unable to send proto frame" << std::endl;
+        std::cout <<  udpSocket->errorString().toStdString() << std::endl;
+    }
+    else {
+        std::cout << "Message forwarded" << std::endl;
     }
 }

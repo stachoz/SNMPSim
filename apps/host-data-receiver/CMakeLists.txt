@@ -3,22 +3,24 @@ project(HostDataReceiver)
 
 add_executable(HostDataReceiver
         src/main.cpp
-        gui/SnmpSimWindow.cpp
-        gui/SnmpSimWindow.h
-        gui/SnmpSimWindow.ui
-        src/DockerContainerLauncher.cpp
-        src/DockerContainerLauncher.h
-        src/DataReceiverLogic.cpp
-        src/DataReceiverLogic.h
-        src/DeviceParam.h
+        gui/widgets/LEDWidget.cpp
+        gui/widgets/LEDWidget.h
+        gui/widgets/DeviceStatus.h
 )
 
 target_sources(HostDataReceiver PRIVATE
         src/DataReceiverApplication.cpp
         src/DataReceiverApplication.h
-        gui/SnmpSimWindow.cpp
-        gui/SnmpSimWindow.h
-        gui/SnmpSimWindow.ui
+        src/DockerContainerLauncher.cpp
+        src/DockerContainerLauncher.h
+        src/DataReceiverLogic.cpp
+        src/DataReceiverLogic.h
+        src/DeviceParam.h
+        gui/windows/SnmpSimWindow.cpp
+        gui/windows/SnmpSimWindow.h
+        gui/windows/SnmpSimWindow.ui
+        gui/widgets/DeviceWidget.cpp
+        gui/widgets/DeviceWidget.h
 )
 
 target_link_libraries(HostDataReceiver PUBLIC

@@ -18,10 +18,10 @@ SnmpSimWindow::SnmpSimWindow(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->startButton, &QPushButton::clicked, dockerLauncher.get(), &DockerContainerLauncher::startDockerContainer);
 
-    auto devicesLayout = new QGridLayout(this);
-    devicesLayout->setContentsMargins(0, 0, 0, 0);  // Remove margins
-    devicesLayout->setHorizontalSpacing(5);  // Small horizontal gap
-    devicesLayout->setVerticalSpacing(5);    // Small vertical gap
+    auto devicesLayout = new QGridLayout();
+    devicesLayout->setContentsMargins(0, 0, 0, 0);
+    devicesLayout->setHorizontalSpacing(5);
+    devicesLayout->setVerticalSpacing(5);
     auto testDeviceWidget = new DeviceWidget("test", "1.1.1.1", this);
     auto testDeviceWidget1 = new DeviceWidget("test1", "1.1.1.1", this);
     auto testDeviceWidget2 = new DeviceWidget("test2", "1.1.1.1", this);
@@ -40,7 +40,6 @@ SnmpSimWindow::SnmpSimWindow(QWidget *parent) :
     devicesLayout->setRowStretch(1, 0);
 
     ui->groupBox_devies->setLayout(devicesLayout);
-
 }
 
 SnmpSimWindow::~SnmpSimWindow() {

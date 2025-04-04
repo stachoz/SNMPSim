@@ -34,24 +34,29 @@ DeviceWidget::DeviceWidget(const QString &deviceName, const QString &ipAddress
 
     switch (deviceStatus) {
         case DeviceStatus::GOOD:
-            statusLabel->setStyleSheet("color: green;");
+            statusLabel->setStyleSheet("color: #50c878;");
+            break;
         case DeviceStatus::NON_ACTIVE:
             statusLabel->setStyleSheet("color: gray;");
+            break;
         case DeviceStatus::WARNING:
             statusLabel->setStyleSheet("color: orange;");
+            break;
         case DeviceStatus::DANGER:
             statusLabel->setStyleSheet("color: red;");
-
+            break;
     }
 
-    QVBoxLayout *layout = new QVBoxLayout(frame);
+    auto layout = new QVBoxLayout();
     layout->addWidget(nameLabel);
     layout->addWidget(ipLabel);
     layout->addWidget(statusLabel);
     layout->addWidget(viewDetailsButton, 0, Qt::AlignCenter);
     layout->addStretch();
 
-    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    frame->setLayout(layout);
+
+    QHBoxLayout *mainLayout = new QHBoxLayout();
     mainLayout->addWidget(frame, 0, Qt::AlignCenter);
-    setLayout(layout);
+    setLayout(mainLayout);
 }

@@ -13,5 +13,5 @@ public:
    DeviceWidget(const QString& deviceName, const QString& ipAddress,QWidget *parent = 0);
 
 private:
-   DeviceStatus deviceStatus;
+   DeviceStatus deviceStatus = DeviceStatus::GOOD;
 };

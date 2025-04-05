@@ -4,8 +4,9 @@
 
 #include "DataReceiverLogic.h"
 
-DataReceiverLogic::DataReceiverLogic(QObject *parent): QObject(parent) {
+DataReceiverLogic::DataReceiverLogic(QObject *parent) : QObject(parent) {
     initSocket();
+    dockerLauncher->startDockerContainer();
 }
 
 void DataReceiverLogic::processDatagram() {

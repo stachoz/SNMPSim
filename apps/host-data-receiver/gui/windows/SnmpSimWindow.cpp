@@ -16,7 +16,7 @@
 SnmpSimWindow::SnmpSimWindow(QWidget *parent) :
     QWidget(parent), ui(new Ui::SnmpSimWindow) {
     ui->setupUi(this);
-    connect(ui->startButton, &QPushButton::clicked, dockerLauncher.get(), &DockerContainerLauncher::startDockerContainer);
+    // connect(ui->startButton, &QPushButton::clicked, dockerLauncher.get(), &DockerContainerLauncher::startDockerContainer);
 
     auto devicesLayout = new QGridLayout();
     devicesLayout->setContentsMargins(0, 0, 0, 0);

@@ -23,7 +23,7 @@ private slots:
 
 private:
     std::unique_ptr<QUdpSocket> updSocket = std::make_unique<QUdpSocket>(this);
-    std::unique_ptr<DockerContainerLauncher> dockerLauncher = std::make_unique<DockerContainerLauncher>();
+    std::unique_ptr<DockerContainerLauncher> dockerLauncher = std::make_unique<DockerContainerLauncher>(this);
     std::map<std::string, std::vector<DeviceParam>> deviceParamsByIp;
 
     void initSocket();

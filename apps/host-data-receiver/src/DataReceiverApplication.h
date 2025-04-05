@@ -6,9 +6,8 @@
 #include <QApplication>
 #include <SnmpFrame.pb.h>
 
-#include <gui/SnmpSimWindow.h>
-
 #include "DataReceiverLogic.h"
+#include "gui/windows/SnmpSimWindow.h"
 
 
 class DataReceiverApplication : public QApplication {

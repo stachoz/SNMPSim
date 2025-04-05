@@ -3,9 +3,6 @@ project(HostDataReceiver)
 
 add_executable(HostDataReceiver
         src/main.cpp
-        gui/widgets/LEDWidget.cpp
-        gui/widgets/LEDWidget.h
-        gui/widgets/DeviceStatus.h
 )
 
 target_sources(HostDataReceiver PRIVATE
@@ -21,6 +18,9 @@ target_sources(HostDataReceiver PRIVATE
         gui/windows/SnmpSimWindow.ui
         gui/widgets/DeviceWidget.cpp
         gui/widgets/DeviceWidget.h
+        gui/widgets/LEDWidget.cpp
+        gui/widgets/LEDWidget.h
+        gui/widgets/DeviceStatus.h
 )
 
 target_link_libraries(HostDataReceiver PUBLIC

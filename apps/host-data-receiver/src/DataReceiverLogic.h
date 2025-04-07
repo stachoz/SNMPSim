@@ -18,6 +18,8 @@ class DataReceiverLogic : public QObject{
 public:
     explicit DataReceiverLogic(QObject *parent = nullptr);
 
+signals:
+    void  snmpFrameReceived(SnmpFrame param);
 private slots:
     void processDatagram();
 
@@ -27,6 +29,4 @@ private:
     std::map<std::string, std::vector<DeviceParam>> deviceParamsByIp;
 
     void initSocket();
-
-    void saveSnmpFrame(const SnmpFrame &snmpFrame);
 };

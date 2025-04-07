@@ -7,6 +7,7 @@
 #include "SnmpSimWindow.h"
 
 #include <iostream>
+#include <QLabel>
 
 #include "ui_SnmpSimWindow.h"
 #include "gui/widgets/DeviceWidget.h"
@@ -16,32 +17,69 @@
 SnmpSimWindow::SnmpSimWindow(QWidget *parent) :
     QWidget(parent), ui(new Ui::SnmpSimWindow) {
     ui->setupUi(this);
-    // connect(ui->startButton, &QPushButton::clicked, dockerLauncher.get(), &DockerContainerLauncher::startDockerContainer);
+    connect(ui->startButton, &QPushButton::clicked, dockerLauncher.get(),[this]() {
+        dockerLauncher->startDockerContainer();
+        areContainersRunning = true;
+        ui->startButton->setDisabled(true);
+    });
 
-    auto devicesLayout = new QGridLayout();
-    devicesLayout->setContentsMargins(0, 0, 0, 0);
-    devicesLayout->setHorizontalSpacing(5);
-    devicesLayout->setVerticalSpacing(5);
-    auto testDeviceWidget = new DeviceWidget("test", "1.1.1.1", this);
-    auto testDeviceWidget1 = new DeviceWidget("test1", "1.1.1.1", this);
-    auto testDeviceWidget2 = new DeviceWidget("test2", "1.1.1.1", this);
-    auto testDeviceWidget3 = new DeviceWidget("test3", "1.1.1.1", this);
-    auto testDeviceWidget4 = new DeviceWidget("test4", "1.1.1.1", this);
-    auto testDeviceWidget5 = new DeviceWidget("test5", "1.1.1.1", this);
-    devicesLayout->addWidget(testDeviceWidget, 0, 1);
-    devicesLayout->addWidget(testDeviceWidget1, 0, 2);
-    devicesLayout->addWidget(testDeviceWidget2, 0, 3);
-    devicesLayout->addWidget(testDeviceWidget3, 1, 1);
-    devicesLayout->addWidget(testDeviceWidget4, 1, 2);
-    devicesLayout->addWidget(testDeviceWidget5, 1, 3);
-    testDeviceWidget->show();
-
-    devicesLayout->setRowStretch(0, 0);
-    devicesLayout->setRowStretch(1, 0);
-
+    if(!areContainersRunning) {
+        noDevicesLabel->setStyleSheet("font-size: 15px;");
+        devicesLayout->addWidget(noDevicesLabel, 0,0,  Qt::AlignHCenter | Qt::AlignVCenter);
+    }
+    else {
+        noDevicesLabel->hide();
+    }
     ui->groupBox_devies->setLayout(devicesLayout);
 }
 
 SnmpSimWindow::~SnmpSimWindow() {
     delete ui;
+}
+
+void SnmpSimWindow::receiveNewSnmpFrame(const SnmpFrame& frame) {
+    areContainersRunning = true;
+    noDevicesLabel->hide();
+    const auto& ip = frame.ip();
+    auto deviceParamIt = deviceParams.find(ip);
+
+    DeviceParam newDeviceParam;
+    newDeviceParam.paramName = frame.devicename();
+    newDeviceParam.oid = frame.oid();
+    newDeviceParam.value = frame.value();
+
+    if(deviceParamIt == deviceParams.end()) {
+        auto deviceWidget = new DeviceWidget(
+            frame.devicename().c_str(),
+            frame.ip().c_str(),
+            this
+        );
+        addNewDeviceWidget(deviceWidget);
+        std::vector<DeviceParam> params;
+        params.push_back(newDeviceParam);
+        deviceParams[ip] = params;
+    }
+    else {
+        auto [ip, deviceParams] = *deviceParamIt;
+        auto paramByOid = std::find_if(std::begin(deviceParams), std::end(deviceParams), [this, &frame](const DeviceParam& deviceParam){
+            return deviceParam.oid == frame.oid();
+        });
+
+        if(paramByOid == std::end(deviceParams)) {
+            deviceParams.push_back(newDeviceParam);
+        }
+        else {
+            paramByOid->value = frame.value();
+        }
+    }
+}
+
+void SnmpSimWindow::addNewDeviceWidget(DeviceWidget* newWidget) {
+    deviceWidgets.push_back(newWidget);
+    devicesLayout->addWidget(newWidget, rows, columns);
+    ++columns;
+    if(columns % 3 == 0) {
+        ++rows;
+        columns = 0;
+    }
 }

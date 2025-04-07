@@ -6,7 +6,6 @@
 
 DataReceiverLogic::DataReceiverLogic(QObject *parent) : QObject(parent) {
     initSocket();
-    dockerLauncher->startDockerContainer();
 }
 
 void DataReceiverLogic::processDatagram() {
@@ -21,7 +20,7 @@ void DataReceiverLogic::processDatagram() {
                     << "Oid: " << snmpFrame.oid() << " ,"
                     << "Value: " << snmpFrame.value() << std::endl;
 
-            saveSnmpFrame(snmpFrame);
+            emit snmpFrameReceived(snmpFrame);
         }
         else {
             std::cout << "Błąd deserializacji ramki Protobuf";
@@ -32,33 +31,4 @@ void DataReceiverLogic::processDatagram() {
 void DataReceiverLogic::initSocket() {
     updSocket->bind(QHostAddress::AnyIPv4, 55555);
     connect(updSocket.get(), &QUdpSocket::readyRead, this, &DataReceiverLogic::processDatagram);
-}
-
-void DataReceiverLogic::saveSnmpFrame(const SnmpFrame &snmpFrame) {
-    const auto& ip = snmpFrame.ip();
-    auto deviceParamIt = deviceParamsByIp.find(ip);
-
-    DeviceParam newDeviceParam;
-    newDeviceParam.paramName = snmpFrame.devicename();
-    newDeviceParam.oid = snmpFrame.oid();
-    newDeviceParam.value = snmpFrame.value();
-
-    if(deviceParamIt == deviceParamsByIp.end()) {
-        std::vector<DeviceParam> deviceParams;
-        deviceParams.push_back(newDeviceParam);
-        deviceParamsByIp[ip] = deviceParams;
-    }
-    else {
-        auto [ip, deviceParams] = *deviceParamIt;
-        auto paramByOid = std::find_if(std::begin(deviceParams), std::end(deviceParams), [this, snmpFrame](const DeviceParam& deviceParam){
-            return deviceParam.oid == snmpFrame.oid();
-        });
-
-        if(paramByOid == std::end(deviceParams)) {
-            deviceParams.push_back(newDeviceParam);
-        }
-        else {
-            paramByOid->value = snmpFrame.value();
-        }
-    }
 }

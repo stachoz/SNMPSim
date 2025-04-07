@@ -9,8 +9,8 @@
 #include <QGroupBox>
 #include <QPushButton>
 
-DeviceWidget::DeviceWidget(const QString &deviceName, const QString &ipAddress
-                           , QWidget *parent) : QWidget(parent) {
+DeviceWidget::DeviceWidget(const QString &deviceName, const QString &ipAddress,
+                            QWidget *parent) : QWidget(parent) {
     auto* frame = new QGroupBox(this);
     frame->setFixedSize(220, 150);
     frame->setStyleSheet(

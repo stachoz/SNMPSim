@@ -56,7 +56,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_devies">
+    <widget class="QGroupBox" name="groupBox_main">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>3</horstretch>
@@ -64,7 +64,7 @@
       </sizepolicy>
      </property>
      <property name="title">
-      <string>GroupBox</string>
+      <string/>
      </property>
     </widget>
    </item>

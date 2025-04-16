@@ -8,7 +8,6 @@
 DockerContainerLauncher::DockerContainerLauncher(QObject *parent): QObject(parent) {}
 
 DockerContainerLauncher::~DockerContainerLauncher() {
-    std::cout << "Stopping containers" << std::endl;
     for(auto& containerHash : containers) {
         std::string cmd = "docker stop " + containerHash;
         system(cmd.c_str());
@@ -19,13 +18,13 @@ void DockerContainerLauncher::startDockerContainer() {
     // TODO run in separate thread
     std::string container1 = execCommand("docker run -d snmp-server-app:latest");
     std::string container2 = execCommand("docker run -d snmp-agent:latest");
-    std::string container3 = execCommand("docker run -d snmp-agent:latest");
-    std::string container4 = execCommand("docker run -d snmp-agent-server-device:latest");
+    // std::string container3 = execCommand("docker run -d snmp-agent:latest");
+    // std::string container4 = execCommand("docker run -d snmp-agent-server-device:latest");
 
     containers.push_back(container1);
     containers.push_back(container2);
-    containers.push_back(container3);
-    containers.push_back(container4);
+    // containers.push_back(container3);
+    // containers.push_back(container4);
 
     for (auto& conHash : containers) {
         std::cout << conHash << std::endl;

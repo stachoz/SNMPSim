@@ -10,7 +10,13 @@
 #include <QPushButton>
 
 DeviceWidget::DeviceWidget(const QString &deviceName, const QString &ipAddress,
-                            QWidget *parent) : QWidget(parent) {
+                            QWidget *parent) : name(deviceName), ip(ipAddress), QWidget(parent) {
+
+    connect(viewDetailsButton, &QPushButton::clicked, this, [this]() {
+        emit sigShowDeviceDetails(ip);
+    });
+
+
     auto* frame = new QGroupBox(this);
     frame->setFixedSize(220, 150);
     frame->setStyleSheet(
@@ -24,7 +30,6 @@ DeviceWidget::DeviceWidget(const QString &deviceName, const QString &ipAddress,
     QLabel *nameLabel = new QLabel("<b>Device name:</b> " + deviceName);
     QLabel *ipLabel = new QLabel("<b>IP Address:</b> " + ipAddress);
     QLabel *statusLabel = new QLabel("<b>Status:</b> good");
-    QPushButton* viewDetailsButton = new QPushButton("View details");
 
     nameLabel->setStyleSheet("margin-bottom: 5px;");
     ipLabel->setStyleSheet("margin-bottom: 5px;");

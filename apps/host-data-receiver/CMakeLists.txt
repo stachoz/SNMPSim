@@ -21,6 +21,8 @@ target_sources(HostDataReceiver PRIVATE
         gui/widgets/LEDWidget.cpp
         gui/widgets/LEDWidget.h
         gui/widgets/DeviceStatus.h
+        gui/widgets/DeviceDetailsWidget.cpp
+        gui/widgets/DeviceDetailsWidget.h
 )
 
 target_link_libraries(HostDataReceiver PUBLIC

@@ -4,7 +4,9 @@
 #pragma once
 
 #include <qgridlayout.h>
+#include <QGroupBox>
 #include <QLabel>
+#include <QTimer>
 #include <QWidget>
 #include <SnmpFrame.pb.h>
 
@@ -21,23 +23,29 @@ class SnmpSimWindow : public QWidget {
 public:
     explicit SnmpSimWindow(QWidget *parent = nullptr);
     ~SnmpSimWindow() override;
-    void receiveNewSnmpFrame(const SnmpFrame& frame);
-    void addNewDeviceWidget(DeviceWidget *newWidget);
+
+    void createNewDeviceWidget(std::string_view ip, std::string_view deviceName);
+public slots:
+    void showNoContainersRunningLabel();
+    void hideNoContainersRunningLabel();
+    void updateDeviceDetails(const SnmpFrame &frame);
 
 private slots:
     void showDeviceDetails(const QString& deviceName);
     void hideDeviceDetails();
+
+
 private:
     Ui::SnmpSimWindow *ui;
     std::unique_ptr<DockerContainerLauncher> dockerLauncher = std::make_unique<DockerContainerLauncher>();
-    std::unordered_map<std::string, std::vector<DeviceParam>> deviceParams {};
     std::vector<DeviceWidget*> deviceWidgets {};
-    bool areContainersRunning {false};
-    std::string shownDeviceDetailsIp;
-    QGridLayout* mainGroupBoxLayout = new QGridLayout();
-    QLabel* noDevicesLabel = new QLabel("No running devices...");
-
     QMap<QString, DeviceDetailsWidget*> deviceDetailsWidgets {};
+    std::string shownDeviceDetailsIp;
+
+    QLabel* noDevicesLabel = new QLabel("No running devices...");
+    QGridLayout* devicesLayout = new QGridLayout();
+    QGroupBox* devicesGroupBox = new QGroupBox();
+
     int rows = 0;
     int columns = 0;
 };

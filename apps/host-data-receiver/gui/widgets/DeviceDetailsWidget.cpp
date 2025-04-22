@@ -30,6 +30,7 @@ void DeviceDetailsWidget::setupUI() {
     layout->addWidget(paramsTable);
     layout->addWidget(backButton, 0, Qt::AlignRight);
 
+    setBaseSize(600, 500);
     setLayout(layout);
     setWindowTitle("Device Details");
 }

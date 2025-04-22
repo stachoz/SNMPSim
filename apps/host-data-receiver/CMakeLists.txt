@@ -13,6 +13,7 @@ target_sources(HostDataReceiver PRIVATE
         src/DataReceiverLogic.cpp
         src/DataReceiverLogic.h
         src/DeviceParam.h
+        src/SnmpDataManager.h
         gui/windows/SnmpSimWindow.cpp
         gui/windows/SnmpSimWindow.h
         gui/windows/SnmpSimWindow.ui

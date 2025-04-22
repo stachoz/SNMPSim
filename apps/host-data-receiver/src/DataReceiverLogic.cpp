@@ -6,6 +6,12 @@
 
 DataReceiverLogic::DataReceiverLogic(QObject *parent) : QObject(parent) {
     initSocket();
+    noDataReceivedTimer.setInterval(dataNoReceivedTimeout);
+    connect(&noDataReceivedTimer, &QTimer::timeout, this, [this] {
+        noContainersRunning = true;
+        emit noDataReceivedFromContainers();
+    });
+    noDataReceivedTimer.start();
 }
 
 void DataReceiverLogic::processDatagram() {
@@ -19,8 +25,12 @@ void DataReceiverLogic::processDatagram() {
                     << "RequestId: " << snmpFrame.requestid() << " ,"
                     << "Oid: " << snmpFrame.oid() << " ,"
                     << "Value: " << snmpFrame.value() << std::endl;
-
-            emit snmpFrameReceived(snmpFrame);
+            updateSnmpData(snmpFrame);
+            noDataReceivedTimer.start();
+            if(noContainersRunning) {
+                emit dataReceiving();
+                noContainersRunning = false;
+            }
         }
         else {
             std::cout << "Błąd deserializacji ramki Protobuf";
@@ -31,4 +41,12 @@ void DataReceiverLogic::processDatagram() {
 void DataReceiverLogic::initSocket() {
     updSocket->bind(QHostAddress::AnyIPv4, 55555);
     connect(updSocket.get(), &QUdpSocket::readyRead, this, &DataReceiverLogic::processDatagram);
+}
+
+void DataReceiverLogic::updateSnmpData(const SnmpFrame& frame) {
+    if(dataManager->isNewDevice(frame.ip())) {
+       emit newDeviceDataReceived(frame.ip(), frame.devicename());
+    }
+    dataManager->updateData(frame);
+    emit snmpFrameReceived(frame);
 }

@@ -64,7 +64,7 @@
       </sizepolicy>
      </property>
      <property name="title">
-      <string/>
+      <string>Devices</string>
      </property>
     </widget>
    </item>

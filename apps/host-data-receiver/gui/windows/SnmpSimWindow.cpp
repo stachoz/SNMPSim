@@ -32,6 +32,7 @@ SnmpSimWindow::SnmpSimWindow(QWidget *parent) :
         );
 
     mainLayout->addWidget(devicesGroupBox,0, 0, Qt::AlignHCenter | Qt::AlignVCenter);
+    devicesGroupBox->setFixedSize(600, 500);
     devicesGroupBox->hide();
 
     noDevicesLabel->setStyleSheet("font-size: 15px;");
@@ -52,7 +53,8 @@ void SnmpSimWindow::createNewDeviceWidget(std::string_view ip, std::string_view 
     auto deviceDetails = new DeviceDetailsWidget(deviceName.data(), ip.data(), this);
     connect(deviceDetails, &DeviceDetailsWidget::backToDevicesRequested, this, &SnmpSimWindow::hideDeviceDetails);
     deviceDetails->hide();
-    devicesLayout->addWidget(deviceDetails, 0, 0);
+    devicesLayout->addWidget(deviceDetails, 0, 0, -1, -1);
+    deviceDetails->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     deviceDetailsWidgets[ip.data()] = deviceDetails;
 
     ++columns;

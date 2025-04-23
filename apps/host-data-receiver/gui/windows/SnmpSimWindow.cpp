@@ -22,8 +22,9 @@ SnmpSimWindow::SnmpSimWindow(QWidget *parent) :
         ui->startButton->setDisabled(true);
     });
 
-    auto mainLayout = new QGridLayout();
+    auto mainLayout = new QVBoxLayout();
 
+    devicesGroupBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     devicesGroupBox->setLayout(devicesLayout);
     devicesGroupBox->setStyleSheet(
         "QGroupBox {"
@@ -31,12 +32,12 @@ SnmpSimWindow::SnmpSimWindow(QWidget *parent) :
         "   };"
         );
 
-    mainLayout->addWidget(devicesGroupBox,0, 0, Qt::AlignHCenter | Qt::AlignVCenter);
-    devicesGroupBox->setFixedSize(600, 500);
+    mainLayout->addWidget(devicesGroupBox, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+    devicesGroupBox->setMinimumSize(620, 550);
     devicesGroupBox->hide();
 
     noDevicesLabel->setStyleSheet("font-size: 15px;");
-    mainLayout->addWidget(noDevicesLabel, 0, 0, Qt::AlignHCenter| Qt::AlignVCenter);
+    mainLayout->addWidget(noDevicesLabel, 1, Qt::AlignHCenter| Qt::AlignVCenter);
     ui->groupBox_main->setLayout(mainLayout);
 }
 
@@ -53,7 +54,7 @@ void SnmpSimWindow::createNewDeviceWidget(std::string_view ip, std::string_view 
     auto deviceDetails = new DeviceDetailsWidget(deviceName.data(), ip.data(), this);
     connect(deviceDetails, &DeviceDetailsWidget::backToDevicesRequested, this, &SnmpSimWindow::hideDeviceDetails);
     deviceDetails->hide();
-    devicesLayout->addWidget(deviceDetails, 0, 0, -1, -1);
+    devicesLayout->addWidget(deviceDetails, 0, 0);
     deviceDetails->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     deviceDetailsWidgets[ip.data()] = deviceDetails;
 

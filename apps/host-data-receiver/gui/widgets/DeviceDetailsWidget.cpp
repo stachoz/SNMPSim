@@ -15,7 +15,7 @@ void DeviceDetailsWidget::setupUI() {
     paramsTable = new QTableWidget(this);
     paramsTable->setColumnCount(3);
     paramsTable->setHorizontalHeaderLabels({"Parameter", "OID", "Value"});
-    paramsTable->horizontalHeader()->setStretchLastSection(true);
+    paramsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     paramsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     paramsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
 

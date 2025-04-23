@@ -18,7 +18,7 @@ DeviceWidget::DeviceWidget(const QString &deviceName, const QString &ipAddress,
 
 
     auto* frame = new QGroupBox(this);
-    frame->setFixedSize(220, 150);
+    frame->setFixedSize(200, 150);
     frame->setStyleSheet(
       "QGroupBox {"
         "   border-radius: 10px; "

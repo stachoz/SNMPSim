@@ -5,29 +5,41 @@
 
 #include "DockerContainerLauncher.h"
 
+#include <thread>
+
 DockerContainerLauncher::DockerContainerLauncher(QObject *parent): QObject(parent) {}
 
 DockerContainerLauncher::~DockerContainerLauncher() {
-    for(auto& containerHash : containers) {
+    for(const auto& containerHash : containers) {
         std::string cmd = "docker stop " + containerHash;
         system(cmd.c_str());
     }
 }
 
 void DockerContainerLauncher::startDockerContainer() {
-    // TODO run in separate thread
-    std::string container1 = execCommand("docker run -d snmp-server-app:latest");
-    std::string container2 = execCommand("docker run -d snmp-agent:latest");
-    std::string container3 = execCommand("docker run -d snmp-agent:latest");
-    std::string container4 = execCommand("docker run -d snmp-agent-server-device:latest");
+    std::string container1 = execCommand(("docker run -d " + snmpServerImgName).data());
+    {
+        std::lock_guard lock(containersMutex);
+        containers.push_back(container1);
+    }
 
-    containers.push_back(container1);
-    containers.push_back(container2);
-    containers.push_back(container3);
-    containers.push_back(container4);
+    std::cout << container1 << std::endl;
 
-    for (auto& conHash : containers) {
-        std::cout << conHash << std::endl;
+    std::vector<std::thread> threads;
+
+    for(const auto& image : devicesImgNames) {
+        threads.emplace_back([this, image]() {
+            std::string result = execCommand(("docker run -d " + image).data());
+            {
+                std::lock_guard lock(containersMutex);
+                containers.push_back(result);
+            }
+            std::cout << result << std::endl;
+        });
+    }
+
+    for(auto& t : threads) {
+        t.join();
     }
 }
 
@@ -35,7 +47,7 @@ std::string DockerContainerLauncher::execCommand(const char *cmd) {
     std::array<char, 128> buffer {};
     std::string result;
 
-    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
+    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), &pclose);
 
     if(!pipe) {
         throw std::runtime_error("popen() failed!");

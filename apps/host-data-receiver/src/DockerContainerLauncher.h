@@ -18,7 +18,14 @@ public slots:
     void startDockerContainer();
 
 private:
-    std::vector<std::string> containers {};
+    std::string snmpServerImgName = "snmp-server-app:latest";
+    std::vector<std::string> devicesImgNames {
+           "snmp-agent:latest",
+           "snmp-agent:latest",
+           "snmp-agent-server-device:latest"
+    };
 
+    std::vector<std::string> containers {};
     std::string execCommand(const char* cmd);
+    std::mutex containersMutex;
 };

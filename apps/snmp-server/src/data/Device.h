@@ -3,17 +3,28 @@
 //
 
 #pragma once
-#include <map>
+
+#include <optional>
+#include <sstream>
 #include <string>
 #include <vector>
+#include <yaml-cpp/yaml.h>
+
+struct ErrorRange {
+    std::optional<int> greaterThan;
+    std::optional<int> lessThan;
+};
+
+struct Param {
+    std::string name;
+    std::vector<unsigned int> oid;
+    ErrorRange errorRange;
+};
 
 class Device {
 public:
     Device(std::string_view name, std::string_view ip);
-
-    void addParameter(const std::pair<std::string, std::vector<unsigned int>>& paramNameOid);;
-
-    const std::map<std::string, std::vector<unsigned int>>& getSnmpOids() const;
+    Device() = default;
 
     const std::string& getIp() const;
 
@@ -21,8 +32,12 @@ public:
 
     std::string getParamNameByOid(const std::vector<unsigned int>& oid) const;
 
+    void addParam(const Param& param);
+
+    const std::vector<Param>& getParams() const;
+
 private:
     std::string name;
     std::string ip;
-    std::map<std::string, std::vector<unsigned int>> snmpOids;
+    std::vector<Param> params {};
 };

@@ -9,14 +9,6 @@ Device::Device(std::string_view name, std::string_view ip) {
     this->ip = ip;
 }
 
-void Device::addParameter(const std::pair<std::string, std::vector<unsigned int>> &paramNameOid) {
-    snmpOids.insert(paramNameOid);
-}
-
-const std::map<std::string, std::vector<unsigned int>> & Device::getSnmpOids() const {
-    return snmpOids;
-}
-
 const std::string & Device::getIp() const {
     return ip;
 }
@@ -26,10 +18,18 @@ const std::string & Device::getName() const {
 }
 
 std::string Device::getParamNameByOid(const std::vector<unsigned int> &oid) const {
-    for(auto& [paramName, paramOid] : snmpOids) {
-        if(oid == paramOid) {
-            return paramName;
+    for(auto& param : params) {
+        if(param.oid == oid) {
+            return param.name;
         }
     }
     return "";
+}
+
+void Device::addParam(const Param &param) {
+    params.push_back(param);
+}
+
+const std::vector<Param> & Device::getParams() const {
+    return params;
 }

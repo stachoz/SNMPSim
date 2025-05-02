@@ -1,0 +1,41 @@
+devices:
+  - name: "computer"
+    ip: "172.17.0.3"
+    params:
+      - name: "temperature"
+        oid: "1.3.6.1.2025.1"
+        error_range:
+          greater_then: 70
+          less_then: 10
+
+  - name: "device2"
+    ip: "172.17.0.4"
+    params:
+      - name: "cpuUsage"
+        oid: "1.3.6.1.2025.2"
+        greater_then: 80
+
+  - name: "server"
+    ip: "172.17.0.5"
+    params:
+      - name: "cpu-temperature"
+        oid: "1.3.6.1.2025.1"
+        error_range:
+          greater_then: 70
+          less_then: 10
+      - name: "cpu-usage"
+        oid: "1.3.6.1.2025.2"
+        error_range:
+          greater_then: 80
+      - name: "processes"
+        oid: "1.3.6.1.2025.3"
+      - name: "memory-usage"
+        oid: "1.3.6.1.2025.4"
+        error_range:
+          greater_then: 90
+      - name: "eth0-status"
+        oid: "1.3.6.1.2025.5"
+        error_range:
+          less_then: 1
+
+

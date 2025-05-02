@@ -49,9 +49,9 @@ std::vector<SNMPMessage> SNMPLogic::createSNMPMessages(const std::vector<Device>
         SNMPMessage message;
         message.communityString = "public";
         message.ip = device.getIp();
-        for(auto& [oidName, oidValue] : device.getSnmpOids()) {
+        for(const auto& param : device.getParams()) {
             message.requestId = requestIdCounter++;
-            message.oid = oidValue;
+            message.oid = param.oid;
             snmpMessages.push_back(message);
         }
     }

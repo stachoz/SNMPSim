@@ -95,7 +95,8 @@ void SnmpSimWindow::updateDeviceDetails(const SnmpFrame& frame) {
     DeviceParam param {
         frame.paramname(),
         frame.oid(),
-        frame.value()
+        frame.value(),
+        frame.isvalid()
     };
     if(shownDeviceDetailsIp == frame.ip()) {
         toUpdate->updateParameter(param);

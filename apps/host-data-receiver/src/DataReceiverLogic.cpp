@@ -24,7 +24,8 @@ void DataReceiverLogic::processDatagram() {
                     << "IP: " << snmpFrame.ip() << " ,"
                     << "RequestId: " << snmpFrame.requestid() << " ,"
                     << "Oid: " << snmpFrame.oid() << " ,"
-                    << "Value: " << snmpFrame.value() << std::endl;
+                    << "Value: " << snmpFrame.value() << " ,"
+                    << "isValid: " << snmpFrame.isvalid() << std::endl;
             updateSnmpData(snmpFrame);
             noDataReceivedTimer.start();
             if(noContainersRunning) {

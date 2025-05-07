@@ -17,7 +17,7 @@ public:
     }
 
     void updateData(const SnmpFrame& frame) {
-        DeviceParam newDeviceParam {frame.devicename(), frame.oid(), frame.value()};
+        DeviceParam newDeviceParam {frame.devicename(), frame.oid(), frame.value(), frame.isvalid()};
         auto deviceParamIt = deviceParamsMap.find(frame.ip());
         if(deviceParamIt != deviceParamsMap.end()) {
             auto [ip, params] = *deviceParamIt;

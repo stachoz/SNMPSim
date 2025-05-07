@@ -41,5 +41,7 @@ private:
 
     void forwardDataToHost(SNMPMessage &message);
 
+    bool validateMessage(const SNMPMessage &message) const;
+
     void sendDevicesNames() const;
 };

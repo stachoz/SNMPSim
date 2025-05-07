@@ -72,7 +72,6 @@ void SNMPLogic::forwardDataToHost(SNMPMessage& message) {
         return;
     }
 
-
     SnmpFrame protoSnmpFrame;
     protoSnmpFrame.set_requestid(message.requestId);
     protoSnmpFrame.set_ip(message.ip);
@@ -81,6 +80,7 @@ void SNMPLogic::forwardDataToHost(SNMPMessage& message) {
     protoSnmpFrame.set_timestamp(QDateTime::currentMSecsSinceEpoch());
     protoSnmpFrame.set_paramname(device->getParamNameByOid(message.oid));
     protoSnmpFrame.set_devicename(device->getName());
+    protoSnmpFrame.set_isvalid(validateMessage(message));
 
     QByteArray data(protoSnmpFrame.ByteSizeLong(), 0);
     protoSnmpFrame.SerializeToArray(data.data(), data.size());
@@ -95,4 +95,9 @@ void SNMPLogic::forwardDataToHost(SNMPMessage& message) {
     else {
         std::cout << "Message forwarded" << std::endl;
     }
+}
+
+bool SNMPLogic::validateMessage(const SNMPMessage& message) const {
+    auto* device = deviceManager->getDeviceByIp(message.ip);
+    return device->isParamValid(message.oid, std::get<int32_t>(*message.value));
 }

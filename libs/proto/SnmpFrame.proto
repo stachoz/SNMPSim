@@ -8,4 +8,5 @@ message SnmpFrame {
   int64 timestamp = 5;
   string paramName = 6;
   string deviceName = 7;
+  bool isValid = 8;
 }

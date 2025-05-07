@@ -11,8 +11,8 @@
 #include <yaml-cpp/yaml.h>
 
 struct ErrorRange {
-    std::optional<int> greaterThan;
-    std::optional<int> lessThan;
+    std::optional<int> greaterThan {std::nullopt};
+    std::optional<int> lessThan {std::nullopt};
 };
 
 struct Param {
@@ -35,6 +35,8 @@ public:
     void addParam(const Param& param);
 
     const std::vector<Param>& getParams() const;
+
+    bool isParamValid(const std::vector<unsigned int>& oid, int32_t value) const;
 
 private:
     std::string name;

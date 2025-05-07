@@ -52,7 +52,7 @@ std::vector<Device> DeviceManager::loadDevices(const std::string &filename) cons
                     param.errorRange.greaterThan = er["greater_than"].as<int>();
                 }
                 if (er["less_than"]) {
-                    param.errorRange.greaterThan = er["less_than"].as<int>();
+                    param.errorRange.lessThan = er["less_than"].as<int>();
                 }
             }
 
@@ -74,3 +74,5 @@ std::vector<unsigned int> DeviceManager::parseOid(const std::string &oidStr) con
     }
     return oid;
 }
+
+

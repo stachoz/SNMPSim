@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     qt6-tools-dev \
     protobuf-compiler \
     libprotobuf-dev \
+    libyaml-cpp-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -26,4 +27,8 @@ RUN mkdir -p build && cd build \
     && cmake .. \
     && cmake --build . --target SNMPServer --config Release
 
-CMD ["/app/build/apps/snmp-server/SNMPServer"]
+RUN ls -al /app/build/apps/snmp-server/
+
+WORKDIR /app/build/apps/snmp-server/
+
+CMD ["./SNMPServer"]

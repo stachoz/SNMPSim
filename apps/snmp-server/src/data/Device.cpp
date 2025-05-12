@@ -47,7 +47,7 @@ bool Device::isParamValid(const std::vector<unsigned int> &oid, int32_t value) c
         return !(value > param.errorRange.greaterThan.value());
     }
     if(param.errorRange.lessThan.has_value()) {
-        return !(value < param.errorRange.greaterThan.value());
+        return !(value < param.errorRange.lessThan.value());
     }
     return true;
 }

@@ -49,5 +49,6 @@ void DataReceiverLogic::updateSnmpData(const SnmpFrame& frame) {
        emit newDeviceDataReceived(frame.ip(), frame.devicename());
     }
     dataManager->updateData(frame);
+    emit deviceStatusChange(frame.ip(), dataManager->checkGeneralDeviceStatus(frame.ip()));
     emit snmpFrameReceived(frame);
 }

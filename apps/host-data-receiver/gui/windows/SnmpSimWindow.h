@@ -28,6 +28,9 @@ public:
 public slots:
     void showNoContainersRunningLabel();
     void hideNoContainersRunningLabel();
+
+    void updateDeviceStatus(std::string_view ip, DeviceStatus status);
+
     void updateDeviceDetails(const SnmpFrame &frame);
 
 private slots:

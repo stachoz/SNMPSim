@@ -98,9 +98,7 @@ void SnmpSimWindow::updateDeviceDetails(const SnmpFrame& frame) {
         frame.value(),
         frame.isvalid()
     };
-    if(shownDeviceDetailsIp == frame.ip()) {
-        toUpdate->updateParameter(param);
-    }
+    toUpdate->updateParameter(param);
 }
 
 void SnmpSimWindow::showNoContainersRunningLabel() {
@@ -111,4 +109,13 @@ void SnmpSimWindow::showNoContainersRunningLabel() {
 void SnmpSimWindow::hideNoContainersRunningLabel() {
     noDevicesLabel->hide();
     devicesGroupBox->show();
+}
+
+void SnmpSimWindow::updateDeviceStatus(std::string_view ip, DeviceStatus status) {
+    auto deviceToUpdate = std::find_if(std::begin(deviceWidgets), std::end(deviceWidgets), [this, ip](DeviceWidget* device) {
+        return device->getIp() == ip;
+    });
+    if(deviceToUpdate != std::end(deviceWidgets)) {
+        (*deviceToUpdate)->setDeviceStatus(status);
+    }
 }

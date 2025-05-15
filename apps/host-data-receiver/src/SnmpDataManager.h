@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "DeviceParam.h"
+#include "gui/widgets/DeviceStatus.h"
 
 
 class SnmpDataManager {
@@ -20,12 +21,13 @@ public:
         DeviceParam newDeviceParam {frame.devicename(), frame.oid(), frame.value(), frame.isvalid()};
         auto deviceParamIt = deviceParamsMap.find(frame.ip());
         if(deviceParamIt != deviceParamsMap.end()) {
-            auto [ip, params] = *deviceParamIt;
+            auto &params = deviceParamIt->second;
             auto paramByOid = std::find_if(std::begin(params), std::end(params), [this, &frame](const DeviceParam& deviceParam){
                 return deviceParam.oid == frame.oid();
             });
             if(paramByOid != params.end()) {
-               paramByOid->value = frame.value();
+                paramByOid->value = frame.value();
+                paramByOid->isValid = frame.isvalid();
             }
             else {
                 params.push_back(newDeviceParam);
@@ -38,6 +40,17 @@ public:
 
     const std::vector<DeviceParam>& getDeviceParamsByIp(std::string_view ip) {
        return deviceParamsMap[ip.data()];
+    }
+
+    DeviceStatus checkGeneralDeviceStatus(std::string_view ip) {
+        auto params = deviceParamsMap[ip.data()];
+        for(const auto& param : params) {
+            if(!param.isValid) {
+                return DeviceStatus::DANGER;
+            }
+        }
+
+        return DeviceStatus::GOOD;
     }
 
 private:

@@ -25,6 +25,7 @@ signals:
     void newDeviceDataReceived(std::string_view ip, std::string_view deviceName);
     void noDataReceivedFromContainers();
     void dataReceiving();
+    void deviceStatusChange(std::string_view ip, DeviceStatus status);
 private slots:
     void processDatagram();
 

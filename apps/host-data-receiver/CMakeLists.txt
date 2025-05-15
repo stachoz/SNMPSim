@@ -19,8 +19,6 @@ target_sources(HostDataReceiver PRIVATE
         gui/windows/SnmpSimWindow.ui
         gui/widgets/DeviceWidget.cpp
         gui/widgets/DeviceWidget.h
-        gui/widgets/LEDWidget.cpp
-        gui/widgets/LEDWidget.h
         gui/widgets/DeviceStatus.h
         gui/widgets/DeviceDetailsWidget.cpp
         gui/widgets/DeviceDetailsWidget.h

@@ -61,7 +61,7 @@ std::vector<SNMPMessage> SNMPLogic::createSNMPMessages(const std::vector<Device>
 
 void SNMPLogic::forwardDataToHost(SNMPMessage& message) {
     if(!message.value.has_value()) {
-        std::cout << "Massage has no value"<< std::endl;
+        std::cout << "Message has no value" << message.ip << std::endl;
         return;
     }
 

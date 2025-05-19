@@ -20,7 +20,7 @@
 class SNMPLogic : public QObject {
     Q_OBJECT
 public:
-    explicit SNMPLogic(QObject* parent = nullptr);
+    SNMPLogic(QObject *parent, std::string ip, int port);
 private:
     std::unique_ptr<QUdpSocket> udpSocket = std::make_unique<QUdpSocket>(this);
     std::unique_ptr<SNMPMessageBuilder> snmpMessageBuilder = std::make_unique<SNMPMessageBuilder>();
@@ -28,8 +28,9 @@ private:
     std::unique_ptr<DeviceManager> deviceManager = std::make_unique<DeviceManager>();
     QTimer sendMessageTimer {this};
     static uint16_t requestIdCounter;
-    static constexpr std::string HOST_IP = "192.168.65.2";
-    static constexpr int HOST_PORT = 55555;
+    std::string receiverIp;
+    int receiverPort;
+
 
     void initSocket();
 

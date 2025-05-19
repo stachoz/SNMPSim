@@ -3,10 +3,10 @@
 //
 
 
-#include "SNMPSimApplication.h"
+#include "SnmpServerApplication.h"
 
 int main(int argc, char *argv[]) {
 
-    SNMPSimApplication app(argc, argv);
+    SnmpServerApplication app(argc, argv);
     app.exec();
 }

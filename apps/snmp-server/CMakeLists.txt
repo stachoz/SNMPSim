@@ -6,8 +6,8 @@ add_executable(SNMPServer
 )
 
 target_sources(SNMPServer PRIVATE
-        src/SNMPSimApplication.cpp
-        src/SNMPSimApplication.h
+        src/SnmpServerApplication.cpp
+        src/SnmpServerApplication.h
         src/SNMPLogic.cpp
         src/SNMPLogic.h
         src/data/DeviceManager.cpp

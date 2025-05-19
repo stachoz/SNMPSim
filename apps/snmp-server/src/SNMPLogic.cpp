@@ -2,7 +2,7 @@
 
 uint16_t SNMPLogic::requestIdCounter = 0;
 
-SNMPLogic::SNMPLogic(QObject *parent) : QObject(parent){
+SNMPLogic::SNMPLogic(QObject *parent, std::string ip, int port) : QObject(parent), receiverIp(ip), receiverPort(port){
     initSocket();
     sendMessageTimer.setInterval(1000);
     connect(&sendMessageTimer, &QTimer::timeout, this, &SNMPLogic::sendData);
@@ -86,7 +86,7 @@ void SNMPLogic::forwardDataToHost(SNMPMessage& message) {
     protoSnmpFrame.SerializeToArray(data.data(), data.size());
 
     // #TODO automatyczne wczytywanie adresu host.docker.internal (192.168.65.2)
-    auto result = udpSocket->writeDatagram(data, QHostAddress(HOST_IP.c_str()), HOST_PORT);
+    auto result = udpSocket->writeDatagram(data, QHostAddress(receiverIp.c_str()), receiverPort);
 
     if(result == -1) {
         std::cout << "Unable to send proto frame" << std::endl;

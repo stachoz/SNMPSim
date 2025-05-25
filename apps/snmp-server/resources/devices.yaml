@@ -1,5 +1,5 @@
 devices:
-  - name: "computer"
+  - name: "PC-1"
     ip: "172.17.0.3"
     params:
       - name: "temperature"
@@ -8,13 +8,21 @@ devices:
             greater_than: 70
             less_than: 10
 
-  - name: "device2"
+  - name: "PC-2"
     ip: "172.17.0.4"
     params:
       - name: "cpuUsage"
         oid: "1.3.6.1.2025.2"
         error_range:
             greater_than: 80
+
+  - name: "PC-3"
+    ip: "172.17.0.4"
+    params:
+      - name: "cpuUsage"
+        oid: "1.3.6.1.2025.2"
+        error_range:
+          greater_than: 80
 
   - name: "server"
     ip: "172.17.0.5"
@@ -41,7 +49,7 @@ devices:
         error_range:
             less_than: 1
 
-  - name: "server2"
+  - name: "server-2"
     ip: "172.17.0.6"
     params:
       - name: "cpu-temperature"
@@ -65,5 +73,3 @@ devices:
         oid: "1.3.6.1.2025.5"
         error_range:
           less_than: 1
-
-

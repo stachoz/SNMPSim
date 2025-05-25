@@ -13,10 +13,7 @@ SNMPMessage SNMPMessageDecoder::decodeSNMPMessageBytes(QByteArray &messageBytes)
     message.communityString = decodeCommunityString(messageBytes);
     decodePdu(messageBytes);
     message.requestId = decodeRequestId(messageBytes);
-
-    // #TODO log error code
-    int error = decodeError(messageBytes);
-
+    decodeError(messageBytes);
     decodeErrorIndex(messageBytes);
     decodeVarbindList(messageBytes);
     decodeVarbind(messageBytes);

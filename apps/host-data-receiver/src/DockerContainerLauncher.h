@@ -22,6 +22,7 @@ private:
     std::vector<std::string> devicesImgNames {
            "snmp-agent:latest",
            "snmp-agent:latest",
+           "snmp-agent:latest",
            "snmp-agent-server-device:latest",
            "snmp-agent-server-device:latest",
     };

@@ -6,39 +6,31 @@
 
 #include "SnmpSimWindow.h"
 
-#include <QLabel>
-
-#include "ui_SnmpSimWindow.h"
-#include "gui/widgets/DeviceWidget.h"
-#include "src/DockerContainerLauncher.h"
-
 
 SnmpSimWindow::SnmpSimWindow(QWidget *parent) :
     QWidget(parent), ui(new Ui::SnmpSimWindow) {
     ui->setupUi(this);
+    ui->groupBox_menu->hide();
 
     connect(ui->startButton, &QPushButton::clicked, dockerLauncher.get(),[this]() {
         dockerLauncher->startDockerContainer();
         ui->startButton->setDisabled(true);
     });
 
-    auto mainLayout = new QVBoxLayout();
-
-    devicesGroupBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    devicesGroupBox->setLayout(devicesLayout);
-    devicesGroupBox->setStyleSheet(
-        "QGroupBox {"
-        "       border: none;"
-        "   };"
-        );
-
-    mainLayout->addWidget(devicesGroupBox, 1, Qt::AlignHCenter | Qt::AlignVCenter);
-    devicesGroupBox->setMinimumSize(620, 550);
-    devicesGroupBox->hide();
-
+    auto* noDevicesPageLayout = new QVBoxLayout();
     noDevicesLabel->setStyleSheet("font-size: 15px;");
-    mainLayout->addWidget(noDevicesLabel, 1, Qt::AlignHCenter| Qt::AlignVCenter);
-    ui->groupBox_main->setLayout(mainLayout);
+    noDevicesPageLayout->addWidget(noDevicesLabel, 1,  Qt::AlignHCenter | Qt::AlignVCenter);
+
+    devicesPage->setLayout(devicesLayout);
+    detailsPage->setLayout(detailsLayout);
+    noDevicesPage->setLayout(noDevicesPageLayout);
+
+    mainStackedLayout->addWidget(devicesPage);
+    mainStackedLayout->addWidget(detailsPage);
+    mainStackedLayout->addWidget(noDevicesPage);
+
+    ui->groupBox_main->setLayout(mainStackedLayout);
+    mainStackedLayout->setCurrentWidget(noDevicesPage);
 }
 
 SnmpSimWindow::~SnmpSimWindow() {
@@ -49,44 +41,33 @@ void SnmpSimWindow::createNewDeviceWidget(std::string_view ip, std::string_view 
     auto* deviceWidget = new DeviceWidget(deviceName.data(), ip.data(), this);
     connect(deviceWidget, &DeviceWidget::sigShowDeviceDetails, this, &SnmpSimWindow::showDeviceDetails);
     deviceWidgets.push_back(deviceWidget);
-    devicesLayout->addWidget(deviceWidget, rows, columns);
+    devicesLayout->addWidget(deviceWidget);
 
     auto deviceDetails = new DeviceDetailsWidget(deviceName.data(), ip.data(), this);
     connect(deviceDetails, &DeviceDetailsWidget::backToDevicesRequested, this, &SnmpSimWindow::hideDeviceDetails);
     deviceDetails->hide();
-    devicesLayout->addWidget(deviceDetails, 0, 0);
     deviceDetails->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    detailsLayout->addWidget(deviceDetails, 1);
     deviceDetailsWidgets[ip.data()] = deviceDetails;
-
-    ++columns;
-    if(columns % 3 == 0) {
-        ++rows;
-        columns = 0;
-    }
 }
 
 void SnmpSimWindow::showDeviceDetails(const QString& ipAddress) {
+    mainStackedLayout->setCurrentWidget(detailsPage);
+
     shownDeviceDetailsIp = ipAddress.toStdString();
-    for(auto* device : deviceWidgets) {
-        device->hide();
-    }
 
     if(deviceDetailsWidgets.contains(ipAddress)) {
         auto* clickedDevieDetails = deviceDetailsWidgets[ipAddress];
-        // clickedDevieDetails->updateParameters(deviceParams[ipAddress.toStdString()]);
         clickedDevieDetails->show();
     }
 }
 
 void SnmpSimWindow::hideDeviceDetails() {
+    mainStackedLayout->setCurrentWidget(devicesPage);
     shownDeviceDetailsIp = "";
 
     for(auto* details : deviceDetailsWidgets) {
         details->hide();
-    }
-
-    for(auto* device : deviceWidgets) {
-        device->show();
     }
 }
 
@@ -102,13 +83,12 @@ void SnmpSimWindow::updateDeviceDetails(const SnmpFrame& frame) {
 }
 
 void SnmpSimWindow::showNoContainersRunningLabel() {
-    devicesGroupBox->hide();
     noDevicesLabel->show();
+    mainStackedLayout->setCurrentWidget(noDevicesPage);
 }
 
 void SnmpSimWindow::hideNoContainersRunningLabel() {
-    noDevicesLabel->hide();
-    devicesGroupBox->show();
+    mainStackedLayout->setCurrentWidget(devicesPage);
 }
 
 void SnmpSimWindow::updateDeviceStatus(std::string_view ip, DeviceStatus status) {

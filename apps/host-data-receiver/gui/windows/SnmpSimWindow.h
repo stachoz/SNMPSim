@@ -6,13 +6,18 @@
 #include <qgridlayout.h>
 #include <QGroupBox>
 #include <QLabel>
+#include <qstackedlayout.h>
 #include <QTimer>
 #include <QWidget>
 #include <SnmpFrame.pb.h>
-
 #include "gui/widgets/DeviceDetailsWidget.h"
 #include "gui/widgets/DeviceWidget.h"
+#include "gui/widgets/FlowLayout.h"
 #include "src/DeviceParam.h"
+#include "src/DockerContainerLauncher.h"
+#include <QLabel>
+#include "ui_SnmpSimWindow.h"
+#include "gui/widgets/DeviceWidget.h"
 #include "src/DockerContainerLauncher.h"
 
 namespace Ui { class SnmpSimWindow; }
@@ -46,9 +51,10 @@ private:
     std::string shownDeviceDetailsIp;
 
     QLabel* noDevicesLabel = new QLabel("No running devices...");
-    QGridLayout* devicesLayout = new QGridLayout();
-    QGroupBox* devicesGroupBox = new QGroupBox();
-
-    int rows = 0;
-    int columns = 0;
+    QVBoxLayout* detailsLayout = new QVBoxLayout();
+    FlowLayout* devicesLayout = new FlowLayout();
+    QStackedLayout* mainStackedLayout = new QStackedLayout();
+    QWidget* devicesPage = new QWidget();
+    QWidget* detailsPage = new QWidget();
+    QWidget* noDevicesPage = new QWidget();
 };

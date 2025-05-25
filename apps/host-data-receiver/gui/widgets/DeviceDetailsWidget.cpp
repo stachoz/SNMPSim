@@ -18,6 +18,7 @@ void DeviceDetailsWidget::setupUI() {
     paramsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     paramsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     paramsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    paramsTable->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     backButton = new QPushButton("Back to Devices", this);
     connect(backButton, &QPushButton::clicked, this, [this]() {
@@ -30,7 +31,6 @@ void DeviceDetailsWidget::setupUI() {
     layout->addWidget(paramsTable);
     layout->addWidget(backButton, 0, Qt::AlignRight);
 
-    setBaseSize(600, 500);
     setLayout(layout);
     setWindowTitle("Device Details");
 }

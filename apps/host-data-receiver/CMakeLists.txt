@@ -22,6 +22,8 @@ target_sources(HostDataReceiver PRIVATE
         gui/widgets/DeviceStatus.h
         gui/widgets/DeviceDetailsWidget.cpp
         gui/widgets/DeviceDetailsWidget.h
+        gui/widgets/FlowLayout.cpp
+        gui/widgets/FlowLayout.h
 )
 
 target_link_libraries(HostDataReceiver PUBLIC

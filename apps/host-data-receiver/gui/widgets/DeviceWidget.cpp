@@ -4,10 +4,8 @@
 
 #include "DeviceWidget.h"
 
-
-
 DeviceWidget::DeviceWidget(const QString &deviceName, const QString &ipAddress,
-                           QWidget *parent) : name(deviceName), ip(ipAddress), QWidget(parent) {
+                           QWidget *parent) : QWidget(parent), name(deviceName), ip(ipAddress) {
 
     connect(viewDetailsButton, &QPushButton::clicked, this, [this]() {
         emit sigShowDeviceDetails(ip);
@@ -22,8 +20,8 @@ DeviceWidget::DeviceWidget(const QString &deviceName, const QString &ipAddress,
         "}"
     );
 
-    QLabel *nameLabel = new QLabel("<b>Device name:</b> " + deviceName);
-    QLabel *ipLabel = new QLabel("<b>IP Address:</b> " + ipAddress);
+    QLabel *nameLabel = new QLabel("<b>name: </b> " + deviceName);
+    QLabel *ipLabel = new QLabel("<b>IP: </b> " + ipAddress);
 
     nameLabel->setStyleSheet("margin-bottom: 5px;");
     ipLabel->setStyleSheet("margin-bottom: 5px;");

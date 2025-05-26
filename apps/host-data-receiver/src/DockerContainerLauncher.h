@@ -11,18 +11,14 @@ class DockerContainerLauncher : public QObject {
     Q_OBJECT
 public:
     DockerContainerLauncher(const std::string &path, QObject *parent);
-
     ~DockerContainerLauncher() override;
 
 public slots:
     void startDockerContainer();
 
 private:
-    std::string snmpServerImgName;
     std::vector<std::string> devicesImgNames {};
-
     std::vector<std::string> containers {};
     std::string execCommand(const char* cmd);
     void loadContainerImageNamesFromFile(const std::string &filename);
-    std::mutex containersMutex;
 };

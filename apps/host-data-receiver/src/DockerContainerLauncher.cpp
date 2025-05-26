@@ -20,30 +20,15 @@ DockerContainerLauncher::~DockerContainerLauncher() {
 }
 
 void DockerContainerLauncher::startDockerContainer() {
-    std::string container1 = execCommand(("docker run -d " + snmpServerImgName).data());
-    {
-        std::lock_guard lock(containersMutex);
-        containers.push_back(container1);
-    }
-
-    std::cout << container1 << std::endl;
-
-    std::vector<std::thread> threads;
-
-    for(const auto& image : devicesImgNames) {
-        threads.emplace_back([this, image]() {
+    std::thread launcherThread([this]() {
+        for(const auto& image : devicesImgNames) {
             std::string result = execCommand(("docker run -d " + image).data());
-            {
-                std::lock_guard lock(containersMutex);
-                containers.push_back(result);
-            }
+            containers.push_back(result);
             std::cout << result << std::endl;
-        });
-    }
+        }
+    });
 
-    for(auto& t : threads) {
-        t.join();
-    }
+    launcherThread.join();
 }
 
 std::string DockerContainerLauncher::execCommand(const char *cmd) {
@@ -71,17 +56,10 @@ void DockerContainerLauncher::loadContainerImageNamesFromFile(const std::string&
     }
 
     std::string line;
-    bool firstLine = true;
 
     while (std::getline(file, line)) {
         if (line.empty()) continue;
-
-        if (firstLine) {
-            snmpServerImgName = line;
-            firstLine = false;
-        } else {
-            devicesImgNames.push_back(line);
-        }
+        devicesImgNames.push_back(line);
     }
 
     file.close();

@@ -26,5 +26,5 @@ public:
 private:
     std::unordered_map<std::string, std::vector<DeviceParam>> deviceParamsMap {};
     std::unordered_map<std::string, QDateTime> deviceUpdateTimeMap {};
-    constexpr int TIMEOUT_MSCEC_INTERVAL = 2000;
+    static constexpr int TIMEOUT_MSCEC_INTERVAL = 2000;
 };

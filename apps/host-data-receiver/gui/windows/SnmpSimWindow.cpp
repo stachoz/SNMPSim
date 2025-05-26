@@ -7,15 +7,19 @@
 #include "SnmpSimWindow.h"
 
 
-SnmpSimWindow::SnmpSimWindow(QWidget *parent) :
+SnmpSimWindow::SnmpSimWindow(bool isTest, std::string containersConfigPath, QWidget *parent) :
     QWidget(parent), ui(new Ui::SnmpSimWindow) {
     ui->setupUi(this);
-    ui->groupBox_menu->hide();
-
-    connect(ui->startButton, &QPushButton::clicked, dockerLauncher.get(),[this]() {
-        dockerLauncher->startDockerContainer();
-        ui->startButton->setDisabled(true);
-    });
+    if(!isTest) {
+        ui->groupBox_menu->hide();
+    }
+    else {
+        dockerLauncher = std::make_unique<DockerContainerLauncher>(containersConfigPath, this);
+        connect(ui->startButton, &QPushButton::clicked, dockerLauncher.get(),[this]() {
+            dockerLauncher->startDockerContainer();
+            ui->startButton->setDisabled(true);
+        });
+    }
 
     auto* noDevicesPageLayout = new QVBoxLayout();
     noDevicesLabel->setStyleSheet("font-size: 15px;");

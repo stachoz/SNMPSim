@@ -16,6 +16,6 @@ public:
     DataReceiverApplication(int &argc, char **argv);
 
 private:
-    std::unique_ptr<SnmpSimWindow> window = std::make_unique<SnmpSimWindow>();
+    std::unique_ptr<SnmpSimWindow> window;
     std::unique_ptr<DataReceiverLogic> logic = std::make_unique<DataReceiverLogic>();
 };

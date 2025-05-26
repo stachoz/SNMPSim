@@ -5,9 +5,12 @@
 
 #include "DockerContainerLauncher.h"
 
+#include <fstream>
 #include <thread>
 
-DockerContainerLauncher::DockerContainerLauncher(QObject *parent): QObject(parent) {}
+DockerContainerLauncher::DockerContainerLauncher(const std::string &path, QObject *parent): QObject(parent) {
+    loadContainerImageNamesFromFile(path);
+}
 
 DockerContainerLauncher::~DockerContainerLauncher() {
     for(const auto& containerHash : containers) {
@@ -58,4 +61,28 @@ std::string DockerContainerLauncher::execCommand(const char *cmd) {
     }
 
     return result;
+}
+
+void DockerContainerLauncher::loadContainerImageNamesFromFile(const std::string& filename) {
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Nie można otworzyć pliku: " << filename << std::endl;
+        return;
+    }
+
+    std::string line;
+    bool firstLine = true;
+
+    while (std::getline(file, line)) {
+        if (line.empty()) continue;
+
+        if (firstLine) {
+            snmpServerImgName = line;
+            firstLine = false;
+        } else {
+            devicesImgNames.push_back(line);
+        }
+    }
+
+    file.close();
 }

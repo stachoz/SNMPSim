@@ -31,7 +31,6 @@ private slots:
 
 private:
     std::unique_ptr<QUdpSocket> updSocket = std::make_unique<QUdpSocket>(this);
-    std::unique_ptr<DockerContainerLauncher> dockerLauncher = std::make_unique<DockerContainerLauncher>(this);
     std::unique_ptr<SnmpDataManager> dataManager = std::make_unique<SnmpDataManager>();
     QTimer noDataReceivedTimer;
     int dataNoReceivedTimeout = 5000;

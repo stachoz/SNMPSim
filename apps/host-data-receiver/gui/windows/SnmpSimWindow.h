@@ -26,7 +26,7 @@ class SnmpSimWindow : public QWidget {
     Q_OBJECT
 
 public:
-    explicit SnmpSimWindow(QWidget *parent = nullptr);
+    explicit SnmpSimWindow(bool isTest, std::string containersConfigPath, QWidget *parent = nullptr);
     ~SnmpSimWindow() override;
 
     void createNewDeviceWidget(std::string_view ip, std::string_view deviceName);
@@ -45,7 +45,7 @@ private slots:
 
 private:
     Ui::SnmpSimWindow *ui;
-    std::unique_ptr<DockerContainerLauncher> dockerLauncher = std::make_unique<DockerContainerLauncher>();
+    std::unique_ptr<DockerContainerLauncher> dockerLauncher;
     std::vector<DeviceWidget*> deviceWidgets {};
     QMap<QString, DeviceDetailsWidget*> deviceDetailsWidgets {};
     std::string shownDeviceDetailsIp;

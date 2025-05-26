@@ -10,7 +10,7 @@
 class DockerContainerLauncher : public QObject {
     Q_OBJECT
 public:
-    explicit DockerContainerLauncher(QObject* parent = nullptr);;
+    DockerContainerLauncher(const std::string &path, QObject *parent);
 
     ~DockerContainerLauncher() override;
 
@@ -18,16 +18,11 @@ public slots:
     void startDockerContainer();
 
 private:
-    std::string snmpServerImgName = "snmp-server-app:latest";
-    std::vector<std::string> devicesImgNames {
-           "snmp-agent:latest",
-           "snmp-agent:latest",
-           "snmp-agent:latest",
-           "snmp-agent-server-device:latest",
-           "snmp-agent-server-device:latest",
-    };
+    std::string snmpServerImgName;
+    std::vector<std::string> devicesImgNames {};
 
     std::vector<std::string> containers {};
     std::string execCommand(const char* cmd);
+    void loadContainerImageNamesFromFile(const std::string &filename);
     std::mutex containersMutex;
 };

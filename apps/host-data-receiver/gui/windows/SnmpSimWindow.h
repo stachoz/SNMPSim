@@ -10,14 +10,15 @@
 #include <QTimer>
 #include <QWidget>
 #include <SnmpFrame.pb.h>
+#include <QLabel>
+#include <qscrollarea.h>
+#include "ui_SnmpSimWindow.h"
+#include "src/DeviceParam.h"
+#include "gui/widgets/DeviceWidget.h"
+#include "src/DockerContainerLauncher.h"
 #include "gui/widgets/DeviceDetailsWidget.h"
 #include "gui/widgets/DeviceWidget.h"
 #include "gui/widgets/FlowLayout.h"
-#include "src/DeviceParam.h"
-#include "src/DockerContainerLauncher.h"
-#include <QLabel>
-#include "ui_SnmpSimWindow.h"
-#include "gui/widgets/DeviceWidget.h"
 #include "src/DockerContainerLauncher.h"
 
 namespace Ui { class SnmpSimWindow; }

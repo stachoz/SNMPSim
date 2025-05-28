@@ -7,6 +7,7 @@
 #include "SnmpSimWindow.h"
 
 
+
 SnmpSimWindow::SnmpSimWindow(bool isTest, std::string containersConfigPath, QWidget *parent) :
     QWidget(parent), ui(new Ui::SnmpSimWindow) {
     ui->setupUi(this);
@@ -33,7 +34,23 @@ SnmpSimWindow::SnmpSimWindow(bool isTest, std::string containersConfigPath, QWid
     mainStackedLayout->addWidget(detailsPage);
     mainStackedLayout->addWidget(noDevicesPage);
 
-    ui->groupBox_main->setLayout(mainStackedLayout);
+
+    auto* wrapper = new QWidget();
+    auto* wrapperLayout = new QVBoxLayout();
+    wrapperLayout->setContentsMargins(0, 0, 0, 0);
+
+    auto* devicesScrollArea = new QScrollArea();
+    devicesScrollArea->setWidget(wrapper);
+    devicesScrollArea->setWidgetResizable(true);
+    devicesScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    devicesScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    // devicesScrollArea->setContentsMargins(0, 0, 0, 0);
+
+    wrapper->setLayout(mainStackedLayout);
+    // wrapper->setContentsMargins(0, 0, 0, 0);
+    wrapper->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    wrapperLayout->addWidget(devicesScrollArea);
+    ui->groupBox_main->setLayout(wrapperLayout);
     mainStackedLayout->setCurrentWidget(noDevicesPage);
 }
 

@@ -6,8 +6,6 @@
 
 #include "SnmpSimWindow.h"
 
-
-
 SnmpSimWindow::SnmpSimWindow(bool isTest, std::string containersConfigPath, QWidget *parent) :
     QWidget(parent), ui(new Ui::SnmpSimWindow) {
     ui->setupUi(this);
@@ -44,10 +42,8 @@ SnmpSimWindow::SnmpSimWindow(bool isTest, std::string containersConfigPath, QWid
     devicesScrollArea->setWidgetResizable(true);
     devicesScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     devicesScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    // devicesScrollArea->setContentsMargins(0, 0, 0, 0);
 
     wrapper->setLayout(mainStackedLayout);
-    // wrapper->setContentsMargins(0, 0, 0, 0);
     wrapper->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     wrapperLayout->addWidget(devicesScrollArea);
     ui->groupBox_main->setLayout(wrapperLayout);

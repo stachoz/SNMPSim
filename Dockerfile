@@ -1,9 +1,9 @@
-FROM debian:12-slim
+#  STAGE 1: Build
+FROM debian:12-slim as builder
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y \
-    tcpdump \
     build-essential \
     cmake \
     qt6-base-dev \
@@ -15,20 +15,28 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-COPY . /app/
-COPY CMakeLists.txt /app
-COPY libs /app
-
-RUN ls -al
+COPY . .
 
 ENV QT_QPA_PLATFORM=offscreen
 
-RUN mkdir -p build && cd build \
+RUN mkdir build && cd build \
     && cmake .. \
     && cmake --build . --target SNMPServer --config Release
 
-RUN ls -al /app/build/apps/snmp-server/
+#  STAGE 2: Runtime
+FROM debian:12-slim
 
-WORKDIR /app/build/apps/snmp-server/
+RUN apt-get update && apt-get install -y \
+    qt6-base-dev \
+    libprotobuf-dev \
+    libyaml-cpp-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV QT_QPA_PLATFORM=offscreen
+
+WORKDIR /snmp-server
+
+COPY --from=builder /app/build/apps/snmp-server/SNMPServer ./SNMPServer
+COPY --from=builder /app/build/apps/snmp-server/devices.yaml ./devices.yaml
 
 CMD ["./SNMPServer"]

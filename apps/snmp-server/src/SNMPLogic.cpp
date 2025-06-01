@@ -59,16 +59,22 @@ std::vector<SNMPMessage> SNMPLogic::createSNMPMessages(const std::vector<Device>
     return snmpMessages;
 }
 
-void SNMPLogic::forwardDataToHost(SNMPMessage& message) {
+void SNMPLogic::forwardDataToHost(SNMPMessage& message) const {
+
     if(!message.value.has_value()) {
         std::cout << "Message has no value" << message.ip << std::endl;
         return;
     }
 
     auto device = deviceManager->getDeviceByIp(message.ip);
-
     if(!device) {
         std::cout << "There is no such device with given ip: " << message.ip << std::endl;
+        return;
+    }
+    auto param = device->getParamByOid(message.oid);
+
+    if(!param.has_value()) {
+        std::cout << "There is no such param" << std::endl;
         return;
     }
 
@@ -78,14 +84,14 @@ void SNMPLogic::forwardDataToHost(SNMPMessage& message) {
     protoSnmpFrame.set_oid(message.getOidAsString());
     protoSnmpFrame.set_value(std::get<int32_t>(*message.value));
     protoSnmpFrame.set_timestamp(QDateTime::currentMSecsSinceEpoch());
-    protoSnmpFrame.set_paramname(device->getParamNameByOid(message.oid));
+    protoSnmpFrame.set_paramname(param.value().name);
     protoSnmpFrame.set_devicename(device->getName());
     protoSnmpFrame.set_isvalid(validateMessage(message));
+    protoSnmpFrame.set_unit(param.value().unit);
 
     QByteArray data(protoSnmpFrame.ByteSizeLong(), 0);
     protoSnmpFrame.SerializeToArray(data.data(), data.size());
 
-    // #TODO automatyczne wczytywanie adresu host.docker.internal (192.168.65.2)
     auto result = udpSocket->writeDatagram(data, QHostAddress(receiverIp.c_str()), receiverPort);
 
     if(result == -1) {

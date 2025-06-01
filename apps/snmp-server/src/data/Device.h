@@ -18,6 +18,7 @@ struct ErrorRange {
 struct Param {
     std::string name;
     std::vector<unsigned int> oid;
+    std::string unit;
     ErrorRange errorRange;
 };
 
@@ -33,6 +34,8 @@ public:
     std::string getParamNameByOid(const std::vector<unsigned int>& oid) const;
 
     void addParam(const Param& param);
+
+    std::optional<Param>  getParamByOid(const std::vector<unsigned int> &oid) const;
 
     const std::vector<Param>& getParams() const;
 

@@ -46,6 +46,10 @@ std::vector<Device> DeviceManager::loadDevices(const std::string &filename) cons
             param.name = p["name"].as<std::string>();
             param.oid = parseOid(p["oid"].as<std::string>());
 
+            if(p["unit"]) {
+                param.unit = p["unit"].as<std::string>();
+            }
+
             if (p["error_range"]) {
                 const auto& er = p["error_range"];
                 if (er["greater_than"]) {

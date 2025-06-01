@@ -48,9 +48,10 @@ void DeviceDetailsWidget::updateParameters(const std::vector<DeviceParam>& param
 
 void DeviceDetailsWidget::updateParameter(const DeviceParam& param) {
     QColor color = param.isValid ? QColor("#228B22") : QColor("#560319");
+    const std::string value = std::to_string(param.value) + param.unit;
     for (int i = 0; i < paramsTable->rowCount(); ++i) {
         if (paramsTable->item(i, 1)->text() == param.oid.c_str()) {
-            paramsTable->item(i, 2)->setText(std::to_string(param.value).c_str());
+            paramsTable->item(i, 2)->setText(value.c_str());
             paramsTable->item(i, 2)->setBackground(color);
             return;
         }
@@ -60,5 +61,5 @@ void DeviceDetailsWidget::updateParameter(const DeviceParam& param) {
     paramsTable->insertRow(newRow);
     paramsTable->setItem(newRow, 0, new QTableWidgetItem(param.paramName.c_str()));
     paramsTable->setItem(newRow, 1, new QTableWidgetItem(param.oid.c_str()));
-    paramsTable->setItem(newRow, 2, new QTableWidgetItem(std::to_string(param.value).c_str()));
+    paramsTable->setItem(newRow, 2, new QTableWidgetItem(value.c_str()));
 }

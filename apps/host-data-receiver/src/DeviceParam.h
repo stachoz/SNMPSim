@@ -10,4 +10,5 @@ struct DeviceParam {
     std::string oid;
     int32_t value;
     bool isValid;
+    std::string unit;
 };

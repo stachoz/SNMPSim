@@ -9,4 +9,5 @@ message SnmpFrame {
   string paramName = 6;
   string deviceName = 7;
   bool isValid = 8;
+  string unit = 9;
 }

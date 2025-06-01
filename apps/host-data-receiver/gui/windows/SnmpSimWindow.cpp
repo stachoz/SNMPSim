@@ -94,7 +94,8 @@ void SnmpSimWindow::updateDeviceDetails(const SnmpFrame& frame) {
         frame.paramname(),
         frame.oid(),
         frame.value(),
-        frame.isvalid()
+        frame.isvalid(),
+        frame.unit()
     };
     toUpdate->updateParameter(param);
 }

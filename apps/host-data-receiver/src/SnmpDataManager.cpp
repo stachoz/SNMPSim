@@ -10,7 +10,7 @@ bool SnmpDataManager::isNewDevice(std::string_view ip) const {
 }
 
 void SnmpDataManager::updateData(const SnmpFrame &frame) {
-    DeviceParam newDeviceParam {frame.devicename(), frame.oid(), frame.value(), frame.isvalid()};
+    DeviceParam newDeviceParam {frame.devicename(), frame.oid(), frame.value(), frame.isvalid(), frame.unit()};
     auto deviceParamIt = deviceParamsMap.find(frame.ip());
     if(deviceParamIt != deviceParamsMap.end()) {
         auto &params = deviceParamIt->second;

@@ -30,6 +30,15 @@ void Device::addParam(const Param &param) {
     params.push_back(param);
 }
 
+std::optional<Param> Device::getParamByOid(const std::vector<unsigned int> &oid) const {
+    for(auto& param : params) {
+        if(param.oid == oid) {
+            return param;
+        }
+    }
+    return std::nullopt;
+}
+
 const std::vector<Param> & Device::getParams() const {
     return params;
 }

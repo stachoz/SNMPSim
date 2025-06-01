@@ -40,7 +40,7 @@ private:
 
     std::vector<SNMPMessage> createSNMPMessages(const std::vector<Device> &devices) const;
 
-    void forwardDataToHost(SNMPMessage &message);
+    void forwardDataToHost(SNMPMessage &message) const;
 
     bool validateMessage(const SNMPMessage &message) const;
 

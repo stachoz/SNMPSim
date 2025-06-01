@@ -29,8 +29,6 @@ private:
     QLabel* ipAddressLabel;
     QTableWidget* paramsTable;
     QPushButton* backButton;
-    QTimer updateTimer;
-    int updateInterval = 2'000;
 
     void setupUI();
 };

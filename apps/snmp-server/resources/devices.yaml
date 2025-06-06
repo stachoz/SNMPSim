@@ -4,7 +4,7 @@ devices:
     params:
       - name: "temperature"
         oid: "1.3.6.1.2025.1"
-        unit: "C"
+        unit: "°C"
         error_range:
             greater_than: 70
             less_than: 10
@@ -23,7 +23,7 @@ devices:
     params:
       - name: "cpu-temperature"
         oid: "1.3.6.1.2025.1"
-        unit: "C"
+        unit: "°C"
         error_range:
             greater_than: 70
             less_than: 10
@@ -51,7 +51,7 @@ devices:
     params:
       - name: "cpu-temperature"
         oid: "1.3.6.1.2025.1"
-        unit: "C"
+        unit: "°C"
         error_range:
           greater_than: 70
           less_than: 10

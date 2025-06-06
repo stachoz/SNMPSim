@@ -2,7 +2,7 @@
 #include <csignal>
 
 int main(int argc, char *argv[]) {
-    std::signal(SIGTERM, [](int sig) {
+    std::signal(SIGTERM, []([[maybe_unused]]int sig) {
         std::cout << "Received SIGTERM" << std::endl;
         QApplication::quit();
     });

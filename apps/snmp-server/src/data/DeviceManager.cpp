@@ -13,10 +13,6 @@ const std::vector<Device> & DeviceManager::getDevices() const {
     return devices;
 }
 
-void DeviceManager::addDevice(const Device &device) {
-    devices.push_back(device);
-}
-
 const Device * DeviceManager::getDeviceByIp(std::string_view ip) const {
     auto deviceIt = std::find_if(std::begin(devices), std::end(devices),
                                  [&ip](const Device &device) {

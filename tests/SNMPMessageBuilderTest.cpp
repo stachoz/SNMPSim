@@ -7,7 +7,7 @@
 class SNMPMessageBuilderTest : public ::testing::Test {
 };
 
-TEST_F(SNMPMessageBuilderTest, buildMessageWithOidSegmentOnMultpileBytes) {
+TEST_F(SNMPMessageBuilderTest, buildMessageWithOidSegmentOnMultipleBytes) {
     QByteArray expectedBytes = QByteArrayLiteral("\x30\x2c"
                                              "\x02\x01\x00"
                                              "\x04\x07\x70\x72\x69\x76\x61\x74\x65"

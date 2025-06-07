@@ -32,6 +32,7 @@ private slots:
 private:
     std::unique_ptr<QUdpSocket> updSocket = std::make_unique<QUdpSocket>(this);
     std::unique_ptr<SnmpDataManager> dataManager = std::make_unique<SnmpDataManager>();
+    std::vector<QTimer> devicesTimers {};
     QTimer noDataReceivedTimer;
     int dataNoReceivedTimeout = 5000;
     bool noContainersRunning {true};

@@ -81,7 +81,7 @@ devices:
         error_range:
           greater_than: 80
 
-  - name: "PC-3"
+  - name: "PC-4"
     ip: "172.17.0.8"
     params:
       - name: "cpuUsage"
@@ -89,7 +89,7 @@ devices:
         error_range:
           greater_than: 80
 
-  - name: "PC-3"
+  - name: "PC-5"
     ip: "172.17.0.9"
     params:
       - name: "cpuUsage"
@@ -97,7 +97,7 @@ devices:
         error_range:
           greater_than: 80
 
-  - name: "PC-3"
+  - name: "PC-6"
     ip: "172.17.0.10"
     params:
       - name: "cpuUsage"
@@ -105,7 +105,7 @@ devices:
         error_range:
           greater_than: 80
 
-  - name: "PC-3"
+  - name: "PC-7"
     ip: "172.17.0.11"
     params:
       - name: "cpuUsage"

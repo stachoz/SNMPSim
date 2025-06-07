@@ -1,11 +1,9 @@
 #!/bin/bash
 
-# random number between 10 and 80
 generate_random_value() {
-    echo $((RANDOM % 31 + 30))
+    echo $((RANDOM % 31 + 50))
 }
 
-# random number between 90 and 100
 generate_spike() {
     echo $((RANDOM % 21 + 61))
 }

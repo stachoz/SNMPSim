@@ -7,7 +7,7 @@
 #include <QApplication>
 
 SnmpServerApplication::SnmpServerApplication(int &argc, char **argv) : QApplication(argc, argv) {
-    std::string ip = "192.168.65.2";
+    std::string ip = "172.17.0.1";
     int port = 55555;
 
     if (argc > 2) {

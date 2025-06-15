@@ -5,8 +5,6 @@ RUN apt-get update && \
     apt-get install -y \
     snmp \
     snmpd \
-    vim \
-    procps \
     && apt-get clean
 
 COPY snmp-temperature.sh /usr/local/bin/snmp/
